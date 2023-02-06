@@ -8,7 +8,7 @@ const localStrategy=require('passport-local');
 passport.use(new localStrategy(usermodel.authenticate()));
 
 /* GET home page. */
-router.get("/", function(res,req){
+router.get("/", function(req,res){
     res.render('index')
 });
 
