@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var passport = require('passport');
 const usermodel = require('../models/userModel')
+const notifier = require('node-notifier');
 
 const localStrategy=require('passport-local');
 
@@ -13,17 +14,46 @@ router.get("/", function(req,res){
 });
 
 
-router.post('/register', function(req, res, next) {
-    var newUser = new usermodel({
-      username:req.body.username,
-      email: req.body.email
-    })
-    usermodel.register(newUser,req.body.password)
-    .then(function(registereduser){
-      passport.authenticate('local')(req,res,function(){
-        res.redirect('/profile')
-      })
-    })
+router.post('/register', async function(req, res, next) {
+    try {
+      if(!req.body.username || !req.body.email || !req.body.password){
+        new notifier.WindowsBalloon().notify({
+          title: '',
+          message: 'Fill All the Fields'
+        });
+        return res.redirect('/');
+      }
+      
+      const user = await usermodel.findOne({username: req.body.username});
+      const userAgain = await usermodel.findOne({email: req.body.email});
+      
+      if(user){
+        notifier.notify({
+          title: '',
+          message: 'User Already Exists with the given username'
+        });
+        return res.redirect('/');
+      }else if(userAgain){
+        notifier.notify({
+          title: '',
+          message: 'User Already Exists with the given email'
+        });
+        return res.redirect('/');
+      }else{
+        var newUser = new usermodel({
+        username:req.body.username,
+        email: req.body.email
+        })
+        usermodel.register(newUser,req.body.password)
+        .then(function(registereduser){
+          passport.authenticate('local')(req,res,function(){
+            res.redirect('/profile')
+          })
+        })
+      }
+    } catch (error) {
+      return res.render('error',{message: error.message, status: 500});
+    }
 });
 
 
@@ -45,7 +75,7 @@ router.get('/check',async function(req,res){
 router.post('/login',passport.authenticate('local',{
     successRedirect:'/profile',
     failureRedirect:'/'
-}),function(req,res,next){})  
+}))  
 
 router.get('/logout', function(req, res, next){
     req.logout(function(err) {
