@@ -2,7 +2,7 @@
 var mongoose=require('mongoose');
 var plm=require('passport-local-mongoose');
 
-mongoose.connect('mongodb://localhost/oneok')
+mongoose.connect('mongodb+srv://Sushant_8083:Sushant%402003@cluster0.eqii0la.mongodb.net/?retryWrites=true&w=majority')
 .then(function(){
   console.log('hey')
 })
