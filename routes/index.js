@@ -9,10 +9,19 @@ const localStrategy=require('passport-local');
 passport.use(new localStrategy(usermodel.authenticate()));
 
 /* GET home page. */
-router.get("/", function(req,res){
-    res.render('index')
-});
-
+router.get("/",  function(req,res){
+  try {
+    if(req.isAuthenticated()||req.user){
+      return res.redirect('/profile')
+    }
+    else{
+      res.render('index')
+    }
+  } catch (error) {
+    res.render('error',{message:"internal server error",error})
+  
+}
+})
 
 router.post('/register', async function(req, res, next) {
     try {
@@ -121,3 +130,9 @@ router.get('/auth/google/failure', (req, res) => {
   
 
 module.exports = router;
+
+
+
+
+
+
