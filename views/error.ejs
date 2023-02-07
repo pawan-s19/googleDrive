@@ -1,3 +1,15 @@
 <h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<h2><%= status %></h2>
+<h3>redirecting in <span></span></h3>
+<script>
+    let time = 5;
+    document.querySelector("span").textContent = time;
+    setInterval(()=>{
+        document.querySelector("span").textContent = time;
+        time--;
+    },1000)
+    setTimeout(()=>{
+        history.back();
+    },6000)
+
+</script>
