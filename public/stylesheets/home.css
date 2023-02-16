@@ -1,0 +1,34 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+#main {
+  height: 100%;
+  width: 100%;
+}
+.hero {
+  height: 90vh;
+  width: 100%;
+}
+.hero .center-text h1 {
+  font-family: Questrial;
+  font-size: 3.5vmax;
+  line-height: 1em;
+}
+.hero .center-text h1 span {
+  color: #0090ff;
+}
+.hero .center-text button {
+  padding: 0.6vmax 3vmax;
+  background-color: #c3e5ff;
+  border: none;
+  border-radius: 0.5em;
+  font-family: "Poppins";
+  margin-top: 1em;
+}
