@@ -1,0 +1,74 @@
+.left {
+  width: 36%;
+  height: 100%;
+  position: relative;
+}
+
+.right {
+  width: 64%;
+  height: 100%;
+  padding: 6vmax 7vmax;
+}
+.left img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.left .blur-overlay {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: #3b99f0b4;
+  left: 0;
+  top: 0;
+}
+.left .text {
+  position: absolute;
+  z-index: 9;
+  font-family: "Poppins";
+  color: white;
+  left: 50%;
+  top: 45%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+}
+.left .text h1 {
+  font-weight: 900;
+  font-size: 6vmax;
+}
+.right .form {
+  width: 70%;
+}
+
+.right .form h1 {
+  font-family: "Questrial";
+}
+.right .form h1 span:nth-child(2) {
+  font-family: "Roboto";
+  font-size: 1.9vmax;
+}
+.right .form h5 {
+  color: #726363;
+  font-family: "Poppins";
+}
+.right .form form {
+  font-family: Poppins;
+}
+.right .form form input {
+  background-color: #f2f9ff;
+  border: none;
+  margin-bottom: 2.2em;
+  padding: 0.5vmax 1vmax;
+}
+
+.right .form form button {
+  width: 100%;
+  border-radius: 1em;
+  background-color: #70befa;
+  color: white;
+  border: none;
+}
+.right .form h6 {
+  color: #726363;
+  font-weight: 400;
+}
