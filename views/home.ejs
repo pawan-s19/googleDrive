@@ -20,9 +20,10 @@
 
     <link rel="stylesheet" href="..//stylesheets//home.css" />
     <link rel="stylesheet" href="..//stylesheets//nav.css" />
+    <link rel="stylesheet" href="..//stylesheets//boilerplate.css" />
   </head>
   <body>
-    <div id="main">
+    <div class="main">
       <% include ./nav.ejs %>
       <div class="hero d-flex align-items-center justify-content-center">
         <div class="center-text d-flex flex-column align-items-center">
@@ -30,7 +31,11 @@
             The best <span>cloud storage</span> in the <br />
             world
           </h1>
-          <button>Get Started</button>
+          <button>
+            <a style="text-decoration: none; color: black" href="/signup"
+              >Get Started</a
+            >
+          </button>
         </div>
       </div>
     </div>
