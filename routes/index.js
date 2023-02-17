@@ -22,7 +22,9 @@ router.get("/", function (req, res) {
     res.render("error", { message: "internal server error", error });
   }
 });
-
+router.get("/signup", function (req, res) {
+  res.render("signup");
+});
 router.post("/register", async function (req, res, next) {
   try {
     if (!req.body.username || !req.body.email || !req.body.password) {
@@ -30,7 +32,7 @@ router.post("/register", async function (req, res, next) {
         title: "",
         message: "Fill All the Fields",
       });
-      return res.redirect("/");
+      return res.redirect("/signup");
     }
 
     const user = await usermodel.findOne({ username: req.body.username });
@@ -41,13 +43,13 @@ router.post("/register", async function (req, res, next) {
         title: "",
         message: "User Already Exists with the given username",
       });
-      return res.redirect("/");
+      return res.redirect("/signup");
     } else if (userAgain) {
       notifier.notify({
         title: "",
         message: "User Already Exists with the given email",
       });
-      return res.redirect("/");
+      return res.redirect("/signup");
     } else {
       res.render("verifyEmail", { SigningUser: req.body });
       // var newUser = new usermodel({
@@ -62,7 +64,7 @@ router.post("/register", async function (req, res, next) {
       // });
     }
   } catch (error) {
-    res.redirect("/");
+    res.redirect("/signup");
   }
 });
 
