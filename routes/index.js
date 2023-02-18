@@ -7,10 +7,56 @@ const otpModel = require("../models/otpModel");
 
 const localStrategy = require("passport-local");
 const mailer = require("../nodemailer");
-
+const {GridFsStorage} = require("multer-gridfs-storage")
+const gridStream = require('gridfs-stream')
+const multer = require("multer");
+const mongoose = require("mongoose");
+const crypto = require("crypto");
+const path = require("path")
+const folderModel = require("../models/folderModel");
 passport.use(new localStrategy(usermodel.authenticate()));
 
+//making connection to gridfs stream
+let gfs;
+let conn = mongoose.createConnection("mongodb://localhost:27017/gridfs")
+conn.once('open', function () {
+   gfs = gridStream(conn.db, mongoose.mongo);
+   gfs.collection("uploads");
+})
+
+//initializing the storage using multer gridfs storage
+
+var storage = new GridFsStorage({
+  db:conn,
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) {
+          return reject(err);
+        }
+        const filename = buf.toString('hex') + path.extname(file.originalname);
+        const fileInfo = {
+          filename: filename,
+          bucketName: 'uploads'
+        };
+        resolve(fileInfo);
+      });
+    });
+  }
+});
+const upload = multer({ storage });
+
 /* GET home page. */
+
+router.post("/upload",upload.single('file') ,(req,res)=>{
+res.json({file:req.file});
+})
+router.get('/createfolder',async (req,res)=>{
+  
+let folder = await folderModel.create({name:req.query.foldername})
+res.redirect("/dashboard");
+})
+
 router.get("/", function (req, res) {
   try {
     if (req.isAuthenticated() || req.user) {
@@ -67,7 +113,16 @@ router.post("/register", async function (req, res, next) {
     res.redirect("/signup");
   }
 });
+router.get("/dashboard",async(req,res)=>{
+  let folders = await folderModel.find();
+  
+res.render("dashboard",{folders});
+})
 
+router.get("/folder/:id",async (req,res)=>{
+  let folder = await folderModel.findById(req.params.id);
+  res.render("folder",{folder});
+})
 router.post("/sendOtp", async (req, res) => {
   try {
     const otp = Math.floor(Math.random() * 1000000);
