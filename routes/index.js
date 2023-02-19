@@ -51,6 +51,14 @@ const upload = multer({ storage });
 router.post("/upload",upload.single('file') ,(req,res)=>{
 res.json({file:req.file});
 })
+
+router.get("/file/:id",(req,res)=>{
+  gfs.files.findOne({filename:req.params.id},(err,file)=>{
+    res.json(file);
+  })
+
+})
+
 router.get('/createfolder',async (req,res)=>{
   
 let folder = await folderModel.create({name:req.query.foldername})
