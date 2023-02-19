@@ -71,6 +71,9 @@ router.get("/", function (req, res) {
 router.get("/signup", function (req, res) {
   res.render("signup");
 });
+router.get("/loginPage", function (req, res) {
+  res.render("login");
+});
 router.post("/register", async function (req, res, next) {
   try {
     if (!req.body.username || !req.body.email || !req.body.password) {

@@ -1,0 +1,87 @@
+*{
+    font-family: Poppins;
+}
+.left{
+    
+    width:55%;
+    height:100%;
+    padding:5vmax 10vmax;
+    
+    
+}
+.right{
+    background-color: #137DF9;
+    width:45%;
+    height:100%;
+    color:white;
+}
+
+.left h6{
+    color:#726363;
+    font-size: 1.2vmax ;
+}
+.left .form form input {
+    background-color: #f2f9ff;
+    border: none;
+    margin-bottom: 2.2em;
+    padding: 0.5vmax 1vmax;
+  }
+  .left .form small{
+    font-weight: 300;
+  }
+  .left .form form button {
+    width: 100%;
+    border-radius: 1em;
+    background-color: #70befa;
+    color: white;
+    border: none;
+  } 
+
+  .google-btn{
+    background-color: #F5F5F5;
+    width:100%;
+    border-radius: 1em;
+    border: none;
+  }
+  .google-btn:hover{
+    background-color: rgb(235, 235, 235);
+  }
+ .google-link{
+    text-decoration: none;
+    color:black;
+    
+  }
+  
+  .google-logo{
+    height:1.7em;
+    
+  }
+
+  .right img{
+    height:30vmax;
+  }
+  .right h1{
+    font-weight: 900;
+  }
+  .right h5{
+    color:#dddddd;
+    font-weight: 100;
+    font-size: 1.1vmax;
+line-height: 1.2em;
+
+  }
+
+  @media screen and (max-width: 900px) {
+    .right {
+       
+        display: none;
+    }
+    .left{
+      width:100%;
+      
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+  }
