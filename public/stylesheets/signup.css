@@ -7,7 +7,8 @@
 .right {
   width: 64%;
   height: 100%;
-  padding: 6vmax 7vmax;
+  /* padding: 4vmax 7vmax; */
+  padding: 3.5em 4em;
 }
 .left img {
   height: 100%;
@@ -67,7 +68,8 @@
 .right .form form button {
   width: 100%;
   border-radius: 1em;
-  background-color: #70befa;
+  /* background-color: #70befa; */
+  background-color: #014a82;
   color: white;
   border: none;
 }

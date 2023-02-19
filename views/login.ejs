@@ -21,10 +21,10 @@
 </head>
 <body>
     <div class="main d-flex">
-        <div class="left ">
+        <div class="left flex-grow-1">
             <div class="text">
-                <h2>Log In</h2>
-                <h6>Welcome back !</h6>
+                <h2 class="text-center" >Log In</h2>
+                <h6 class="text-center" >Welcome back !</h6>
                 <div class="form mt-5">
                     <form action="/login" method="post">
                         <div class="mb-3">
@@ -52,14 +52,15 @@
                         <button type="submit" class="btn btn-primary">Login</button>
                       </form>
                       <a class="google-link" href="/auth/google"><button class="btn mt-4 google-btn d-flex ps-4 justify-content-center"><img class="google-logo me-3" src="..//assets/googlelogo.png">Login with google</button></a>
-                      <h6 class="mt-5 text-center fs-6 ">
-                        Don't have an account? <a href="/signup">Sign Up</a>
+                      <h6 class="mt-5 text-center fs-6 text-nowrap">
+                        Don't have an account? <br/><a class="text-decoration-none" href="/signup">Sign Up</a>
                       </h6>
                 </div>
             </div>
         </div>
-        <div class="right d-flex justify-content-center">
-            <div class="text-center"><img src="/assets/loginPageillus.png">
+        <div class="right d-flex justify-content-center px-2">
+            <div class="text-center rightImg">
+            <img src="/assets/loginPageillus.png"/>
             <h1>Speady, Easy and Fast</h1>
             <h5>CloudUp provides fast , hassle-free storage <br> services and runs on highly safe and fast <br>network which promises data security and <br> accessibility.</h5>
             </div>
