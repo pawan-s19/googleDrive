@@ -70,7 +70,7 @@ router.get("/", function (req, res) {
     if (req.isAuthenticated() || req.user) {
       return res.redirect("/profile");
     } else {
-      res.render("home");
+      res.render("dss");
     }
   } catch (error) {
     res.render("error", { message: "internal server error", error });

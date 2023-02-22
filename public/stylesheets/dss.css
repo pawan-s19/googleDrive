@@ -1,0 +1,191 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html,body{
+    width: 100%;
+    height: 100%;
+}
+:root{
+    --themeBlue: #187CEA;
+}
+.parent{
+    width: 100%;
+    min-height: 100%;
+}
+
+/* left block styling */
+.left{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: rgb(0, 0, 0);
+    box-shadow: -9px 0px 20px 0px black;
+    color: rgb(255, 255, 255);
+}
+.leftBrandMenu > img{
+    width: 140px;
+}
+.right{
+    flex-grow: 1;
+    background-color: #f6f6f6;
+}
+.menu{
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+}
+/* Made for on hover animation of menu*/
+/* .menu{
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+}
+.lineBlock{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-left: 3px;
+}
+.menu_block{
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+.lines{
+    width: 20px;
+    height: 3.5px;
+    background-color: rgb(0, 0, 0);
+    border-radius: .8px;
+}
+.menu_block2{
+    width: 30px;
+    height: 30px;
+    background: url(../assets/equiMenu.gif);
+    background-position: center;
+    background-size: 200px;
+    transform: rotate(90deg);
+    display: none;
+} */
+
+.leftOptions > a{
+    color: rgb(255, 255, 255);
+}
+.selected{
+    /* background-color: rebeccapurple; */
+        background-color: var(--themeBlue);
+        color: white;
+}
+.OptionCtn:hover{
+    /* background-color: #0091ff8c; */
+    background-color: #187eea92;
+    color: white;
+}
+.selected:hover{
+    /* background-color: #006bbc; */
+    background-color: var(--themeBlue);
+}
+.progress{
+    height: 8px;
+}
+.progress-bar{
+    background-color: var(--themeBlue);
+}
+.profile{
+    width: 30px;
+    height: 30px;
+    background-color: var(--themeBlue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+.searchinp{
+    width: 20vmax;
+}
+.contentCtn{
+    width: 100%;
+    height: 100%;
+}
+.viewBtn{
+    border-radius: 100px;
+    box-shadow: 0px 0px 12px -2px rgba(0, 0, 0, 0.447);
+}
+.viewIcon > i{
+    padding: 7px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.selectedIcon{
+    /* background-color: #0090ff; */
+    background-color: var(--themeBlue);
+    color: white;
+}
+.path{
+    font-family: Poppins;
+    color: var(--themeBlue);
+    opacity: .8;
+}
+.folderCtn::-webkit-scrollbar{
+    display: none;
+}
+.folderDiv i{
+    font-size: 20px;
+}
+.folderDiv{
+    min-width: 15rem;
+    border: 1px groove rgba(128, 128, 128, 0.338);
+}
+.folderDiv:hover{
+    background-color: #007bff14;
+}
+.folderDiv p{
+    user-select: none;
+}
+/* .contentLeft{
+    flex: 3;
+} */
+/* width: 280px; */
+/* .contentRight{
+    background-color: rgb(255, 255, 255);
+} */
+@media only screen and (max-width: 600px) {
+    .menu{
+        display: block;
+    }
+    .left{
+        display: none;
+    }
+    .navbar-brand > span{
+        display: none;
+    }
+}
+
+
+@media only screen and (max-width: 721px){
+    .folderDiv i{
+        font-size:16vw;
+    }
+    .folderDiv{
+        flex-direction: column;
+        min-width: 9rem;
+        border: none;
+    }
+    .folderWrapper{
+        grid-row-start: 3;
+    }
+}
+
+/* @media only screen and (max-width: 900px){
+    .contentRight{
+        width: 0;
+    }
+} */
