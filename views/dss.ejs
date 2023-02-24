@@ -73,7 +73,7 @@
                         </button>
                         <a href="" class="navbar-brand d-flex align-items-center">
                             <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_XyWejw.json"  background="transparent"  speed="1"  style="width: 40px; height: 40px;" hover></lottie-player>
-                            <span>Add File</span>
+                            <span>Upload File</span>
                         </a>
                     </div>
                     <!-- <button class="menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
@@ -121,7 +121,25 @@
                             </ul>
                         </div>
                       </div>
-                      <div class="content_navRight">
+                      <div class="content_navRight d-flex align-items-center">
+                            <div class="optionsWrapper align-items-center">
+                                <a class="text-decoration-none text-dark">
+                                    <i class="deleteIcon optionIcons p-2 rounded-circle ri-delete-bin-fill"></i>
+                                </a>
+                                <div class="btn-group dropstart">
+                                    <button type="button" class="btn bg-none border-0" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="p-2 optionIcons rounded-circle ri-more-2-fill"></i>
+                                    </button>
+                                    <ul class="dropdown-menu shadow border-0">
+                                    <li><a class="dropdown-item" href="#"><i class="ri-folder-transfer-line me-2"></i> Move to</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ri-star-line me-2"></i> Add to Starred</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ri-edit-2-line me-2"></i> Rename</a></li>
+                                    <hr>
+                                    <li><a class="dropdown-item" href="#"><i class="ri-information-line me-2"></i> View details</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="ri-download-fill me-2"></i> Download</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                             <div class="viewBtn bg-light d-flex align-items-center">
                                 <div class="viewIcon">
                                     <i id="gridView" class="ri-layout-grid-fill selectedIcon"></i>
@@ -133,77 +151,77 @@
                       </div>  
                     </div>
                     <div class="path mx-4 d-flex align-items-center">
-                        <p class="my-0">
+                        <!-- <p class="my-0"> -->
                             Mydrive>Local>To>
                             <div class="dropdown-center">
-                                <button class="btn bg-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+                                <button class="btn bg-none border-0 text-nowrap" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
                                   Me Khali Karunga
                                 </button>
-                                <div class="position-absolute" style="min-height: 120px; background-color: white;">
+                                <div class="position-absolute" style="min-height: 120px;">
                                     <div class="collapse collapse-horizontal" id="collapseWidthExample">
-                                        <ul class="shadow border-0 list-unstyled text-black p-3 rounded-3">
-                                            <li><a class="dropdown-item" href="#"><i class="ri-folder-add-line me-2"></i> New Folder</a></li>
-                                            <hr>
-                                            <li><a class="dropdown-item" href="#"><i class="ri-file-upload-line me-2"></i> Upload File</a></li>
-                                            <li><a class="dropdown-item" href="#"><i class="ri-folder-upload-line me-2"></i> Upload Folder</a></li>
+                                        <ul class="rollMenu shadow border-0 bg-white list-unstyled text-black py-2 px-1 rounded-3">
+                                            <li><a class="dropdown-item px-2" href="#"><i class="ri-folder-add-line me-2"></i> New Folder</a></li>
+                                            <hr class="mx-1">
+                                            <li><a class="dropdown-item px-2" href="#"><i class="ri-file-upload-line me-2"></i> Upload File</a></li>
+                                            <li><a class="dropdown-item px-2" href="#"><i class="ri-folder-upload-line me-2"></i> Upload Folder</a></li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-                        </p>
+                        <!-- </p> -->
                     </div>
                 </nav>
                 <hr class="mx-3 my-0"/>
-                <div class="container-fluid px-4 folderCtn mt-3">
-                    <div class="folderWrapper row row-cols-5 gap-2">
-                        <div class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
-                            <i class="ri-folder-5-fill"></i>
-                            <p title="my cloud" class="m-0">My Folder 1</p>
-                        </div>
-                        <div class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
-                            <i class="ri-folder-5-fill"></i>
-                            <p title="my cloud" class="m-0">My Folder 2</p>
-                        </div>
-                        <div class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
-                            <i class="ri-folder-5-fill"></i>
-                            <p title="my cloud" class="m-0">My Folder 3</p>
-                        </div>
-                        <div class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
-                            <i class="ri-folder-5-fill"></i>
-                            <p title="my cloud" class="m-0">My Folder 4</p>
-                        </div>
-                        <div class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
-                            <i class="ri-folder-5-fill"></i>
-                            <p title="my cloud" class="m-0">My Folder 5</p>
-                        </div>
-                        <div class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
-                            <i class="ri-folder-5-fill"></i>
-                            <p title="my cloud" class="m-0">My Folder 6</p>
-                        </div>
-                        <div class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
-                            <i class="ri-folder-5-fill"></i>
-                            <p title="my cloud" class="m-0">My Folder 7</p>
-                        </div>
-                        <div class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
-                            <i class="ri-folder-5-fill"></i>
-                            <p title="my cloud" class="m-0">My Folder 8</p>
-                        </div>
-                        <div class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
-                            <i class="ri-folder-5-fill"></i>
-                            <p title="my cloud" class="m-0">My Folder 9</p>
-                        </div>
-                        <div class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
-                            <i class="ri-folder-5-fill"></i>
-                            <p title="my cloud" class="m-0">My Folder 10</p>
-                        </div>
-                        <div class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
-                            <i class="ri-folder-5-fill"></i>
-                            <p title="my cloud" class="m-0">My Folder 11</p>
-                        </div>
-                        
-                    </div>
-                </div>
                 <!-- <div class="contentRight shadow-sm"></div> -->
+            </div>
+            <div class="container-fluid px-4 py-3 folderCtn">
+                <div class="folderWrapper row row-cols-5 justify-content-evenly">
+                    <div class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
+                        <i class="ri-folder-5-fill"></i>
+                        <p title="my cloud" class="m-0">My Folder 1</p>
+                    </div>
+                    <div class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
+                        <i class="ri-folder-5-fill"></i>
+                        <p title="my cloud" class="m-0">My Folder 2</p>
+                    </div>
+                    <div class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
+                        <i class="ri-folder-5-fill"></i>
+                        <p title="my cloud" class="m-0">My Folder 3</p>
+                    </div>
+                    <div class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
+                        <i class="ri-folder-5-fill"></i>
+                        <p title="my cloud" class="m-0">My Folder 4</p>
+                    </div>
+                    <div class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
+                        <i class="ri-folder-5-fill"></i>
+                        <p title="my cloud" class="m-0">My Folder 5</p>
+                    </div>
+                    <div class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
+                        <i class="ri-folder-5-fill"></i>
+                        <p title="my cloud" class="m-0">My Folder 6</p>
+                    </div>
+                    <div class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
+                        <i class="ri-folder-5-fill"></i>
+                        <p title="my cloud" class="m-0">My Folder 7</p>
+                    </div>
+                    <div class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
+                        <i class="ri-folder-5-fill"></i>
+                        <p title="my cloud" class="m-0">My Folder 8</p>
+                    </div>
+                    <div class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
+                        <i class="ri-folder-5-fill"></i>
+                        <p title="my cloud" class="m-0">My Folder 9</p>
+                    </div>
+                    <div class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
+                        <i class="ri-folder-5-fill"></i>
+                        <p title="my cloud" class="m-0">My Folder 10</p>
+                    </div>
+                    <div class="folderDiv d-flex align-items-center justify-content-start align-self-start justify-self-start gap-2 py-2 px-2 rounded">
+                        <i class="ri-folder-5-fill"></i>
+                        <p title="my cloud" class="m-0">My Folder 11</p>
+                    </div>
+                    
+                </div>
             </div>
         </div>
     </div>
@@ -213,22 +231,59 @@
         let gridViewBtn = document.querySelector("#gridView");
         let listViewBtn = document.querySelector("#listView");
         let allFolder = document.querySelectorAll('.folderDiv');
+        let optionsWrapper = document.querySelector('.optionsWrapper');
 
         gridViewBtn.addEventListener("click",function(){
             this.classList.add("selectedIcon");
             listViewBtn.classList.remove("selectedIcon");
             allFolder.forEach((folder) => {
-                folder.style.minWidth = '15rem'
-                folder.style.width = 'fit-content'
+                folder.classList.remove('list');
+                folder.classList.add('grid');
+                // folder.style.minWidth = '15rem'
+                // folder.style.width = 'fit-content'
             });
         });
         listViewBtn.addEventListener("click",function(){
             this.classList.add("selectedIcon");
             gridViewBtn.classList.remove("selectedIcon");
             allFolder.forEach((folder) => {
-                folder.style.width = '100%'
+                folder.classList.add('list');
+                folder.classList.remove('grid');
+                // folder.style.width = '100%'
             });
         });
+
+        document.querySelector('.folderWrapper').addEventListener('click', (e) => {
+            // console.log(e.target.getElementsByTagName('p')[0].innerHTML + " is clicked")
+            if(e.target.classList.contains('folderDiv')){
+                allFolder.forEach((folderDiv) => {
+                    folderDiv.classList.remove('folderDivSelected');
+                });
+                e.target.classList.add('folderDivSelected');
+                optionsWrapper.style.display = 'flex';
+            }else{
+                allFolder.forEach((folderDiv) => {
+                    folderDiv.classList.remove('folderDivSelected');
+                });
+                optionsWrapper.style.display = 'none';
+            }
+        });
+
+        allFolder.forEach((folder) => {
+            folder.addEventListener("click", (e) => {
+                console.log(e.target.classList)
+            });
+        });
+
+
+        window.addEventListener("click", (e) => {
+            if(!e.target.classList.contains("folderDiv") && !e.target.classList.contains('optionIcons')){
+                optionsWrapper.style.display = 'none';
+                allFolder.forEach((folderDiv) => {
+                    folderDiv.classList.remove('folderDivSelected');
+                });
+            }
+        })
     </script>
 </body>
 </html>

@@ -15,6 +15,18 @@ html,body{
     width: 100%;
     min-height: 100%;
 }
+.rollMenu{
+    background-color: #187cea80 !important;
+    color: white !important;
+    text-shadow: 2px 2px 4px #187cea;
+    filter: blur(2);
+}
+.rollMenu li{
+    border-radius: 5px;
+}
+.rollMenu li:hover{
+    background-color: #187eea;
+}
 
 /* left block styling */
 .left{
@@ -29,6 +41,7 @@ html,body{
     width: 140px;
 }
 .right{
+    height: 100vh;
     flex-grow: 1;
     background-color: #f6f6f6;
 }
@@ -113,7 +126,7 @@ html,body{
 }
 .contentCtn{
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
 }
 .viewBtn{
     border-radius: 100px;
@@ -129,26 +142,62 @@ html,body{
     background-color: var(--themeBlue);
     color: white;
 }
+.optionsWrapper{
+    display: none;
+}
+.optionIcons:hover{
+    transition: all .5s cubic-bezier(0.19, 1, 0.22, 1);
+    cursor: pointer;
+    background-color: #007bff44;
+}
+.optionIcons:active{
+    background-color: #007bff8a;
+}
 .path{
     font-family: Poppins;
     color: var(--themeBlue);
     opacity: .8;
 }
+.folderCtn{
+    overflow: scroll;
+}
 .folderCtn::-webkit-scrollbar{
     display: none;
+}
+.folderWrapper{
+    gap: .5rem !important;
 }
 .folderDiv i{
     font-size: 20px;
 }
 .folderDiv{
+    position: relative;
     min-width: 15rem;
     border: 1px groove rgba(128, 128, 128, 0.338);
+}
+.folderDiv::before{
+    content: '';
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0);
+    position: absolute;
 }
 .folderDiv:hover{
     background-color: #007bff14;
 }
+.folderDivSelected{
+    will-change: background-color;
+    background-color: #007bff44;
+}
 .folderDiv p{
     user-select: none;
+    white-space: nowrap;
+}
+.grid{
+    width: 15rem;
+}
+.list{
+    width: 100%;
 }
 /* .contentLeft{
     flex: 3;
@@ -175,12 +224,25 @@ html,body{
         font-size:16vw;
     }
     .folderDiv{
-        flex-direction: column;
-        min-width: 9rem;
         border: none;
+        flex-direction: column;
+        min-width: 18vmax;
+    }
+    .grid{
+        width: 18vmax;
+    }
+
+    .list{
+        width: 100%;
+        flex-direction: row;
+        align-items: end;
+        border: 1px groove rgba(128, 128, 128, 0.338);
+    }
+    .list i{
+        font-size: 9vw;
     }
     .folderWrapper{
-        grid-row-start: 3;
+        gap: 1rem !important;
     }
 }
 
