@@ -15,17 +15,18 @@ html,body{
     width: 100%;
     min-height: 100%;
 }
-.rollMenu{
+/* .rollMenu{
     background-color: #187cea80 !important;
+    background-color: #92c6ff !important;
     color: white !important;
     text-shadow: 2px 2px 4px #187cea;
     filter: blur(2);
-}
+} */
 .rollMenu li{
     border-radius: 5px;
 }
 .rollMenu li:hover{
-    background-color: #187eea;
+    background-color: #007bff1b;
 }
 
 /* left block styling */
@@ -155,8 +156,12 @@ html,body{
 }
 .path{
     font-family: Poppins;
-    color: var(--themeBlue);
-    opacity: .8;
+    /* color: var(--themeBlue); */
+    color: #205895;
+    opacity: 1;
+}
+.left-collapse{
+    z-index: 9999999999 !important;
 }
 .folderCtn{
     overflow: scroll;

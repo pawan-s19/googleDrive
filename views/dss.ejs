@@ -275,28 +275,31 @@
               </div>
             </div>
             <div class="path mx-4 d-flex align-items-center">
-              <!-- <p class="my-0"> -->
               Mydrive>Local>To>
-              <div class="dropdown-center">
+              <div >
                 <button
                   class="btn bg-none border-0 text-nowrap"
                   type="button"
                   data-bs-toggle="collapse"
-                  data-bs-target="#collapseWidthExample"
+                  data-bs-target="#collapseExample"
                   aria-expanded="false"
-                  aria-controls="collapseWidthExample"
+                  aria-controls="collapseExample"
                 >
                   Me Khali Karunga
                 </button>
-                <div class="position-absolute" style="min-height: 120px">
+                <div class="left-collapse position-absolute" style="min-height: 120px">
                   <div
-                    class="collapse collapse-horizontal"
-                    id="collapseWidthExample"
+                    class="collapse"
+                    id="collapseExample"
                   >
                     <ul
                       class="rollMenu shadow border-0 bg-white list-unstyled text-black py-2 px-1 rounded-3"
                     >
-                      <li>
+                      <li
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                        data-bs-whatever="@mdo"  
+                      >
                         <a class="dropdown-item px-2" href="#"
                           ><i class="ri-folder-add-line me-2"></i> New Folder</a
                         >
@@ -318,7 +321,6 @@
                   </div>
                 </div>
               </div>
-              <!-- </p> -->
             </div>
           </nav>
           <hr class="mx-3 my-0" />
