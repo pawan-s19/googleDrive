@@ -60,9 +60,12 @@ router.get("/file/:id", async (req, res) => {
   });
 });
 router.get("/all/file", (req, res) => {});
-router.get("/createfolder", async (req, res) => {
-  let folder = await folderModel.create({ name: req.query.foldername });
+router.post("/createfolder", async (req, res) => {
+  let folder = await folderModel.create({ name: req.body.foldername });
+  folder.parent.push(req.body.parentId);
+  await folder.save();
   res.redirect("/dashboard");
+  console.log(req.body.parentId);
 });
 
 router.get("/", function (req, res) {
