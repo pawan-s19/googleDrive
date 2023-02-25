@@ -190,11 +190,11 @@
                     <li
                       data-bs-toggle="modal"
                       data-bs-target="#exampleModal"
-                      data-bs-whatever="@mdo"
+                      data-bs-parentId="<%=folders[0]._id%>"
                     >
                       <a class="dropdown-item" href="#"
-                        ><i class="ri-folder-add-line me-2"></i> New Folder</a
-                      >
+                        ><i class="ri-folder-add-line me-2"></i> New Folder
+                      </a>
                     </li>
                     <hr />
                     <li>
@@ -325,17 +325,22 @@
           <!-- <div class="contentRight shadow-sm"></div> -->
         </div>
         <div class="container-fluid px-4 py-3 folderCtn">
-          <h6 class="mb-3">Folders</h6>
-          <div class="folderWrapper row row-cols-6 mb-5">
-            <%folders.forEach(function(elem){%>
-            <div
-              class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded"
-            >
-              <i class="ri-folder-5-fill"></i>
-              <p title="my cloud" class="m-0"><%=elem.name%></p>
+          <%if(folders.length > 1){%>
+          <div>
+            <h6 class="mb-3">Folders</h6>
+            <div class="folderWrapper row row-cols-6 mb-5">
+              <%folders.forEach(function(elem){%> <%if(elem.isRoot){%>
+              <%}else{%>
+              <div
+                class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded"
+              >
+                <i class="ri-folder-5-fill"></i>
+                <p title="my cloud" class="m-0"><%=elem.name%></p>
+              </div>
+              <%}%> <% })%>
             </div>
-            <% })%>
           </div>
+          <%}else{%> <%}%>
           <h6 class="mb-3">Files</h6>
           <div class="folderWrapper row row-cols-5">
             <%files.forEach(function(elem){%>
@@ -374,7 +379,7 @@
               ></button>
             </div>
             <div class="modal-body">
-              <form action="/createfolder">
+              <form method="post" action="/createfolder">
                 <div class="mb-3">
                   <input
                     autofocus
@@ -383,6 +388,12 @@
                     class="form-control"
                     id="recipient-name"
                     name="foldername"
+                  />
+                  <input
+                    type="text"
+                    name="parentId"
+                    class="parentId"
+                    style="display: none"
                   />
                 </div>
                 <div class="modal-footer border-0">

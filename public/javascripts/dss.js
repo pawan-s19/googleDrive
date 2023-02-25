@@ -70,3 +70,13 @@ fileInput.addEventListener("change", (dets) => {
     console.log("s");
   }
 });
+
+var exampleModal = document.getElementById("exampleModal");
+exampleModal.addEventListener("show.bs.modal", function (event) {
+  // Button that triggered the modal
+  var button = event.relatedTarget;
+  var parentId = button.getAttribute("data-bs-parentId");
+  console.log(parentId);
+  var parentIdInput = document.querySelector(".parentId");
+  parentIdInput.value = parentId;
+});
