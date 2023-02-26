@@ -35,7 +35,7 @@ var storage = new GridFsStorage({
           return reject(err);
         }
         // const filename = buf.toString("hex") + path.extname(file.originalname);
-        const filename = `${file.originalname}%20${Date.now()}`;
+        const filename = `${file.originalname}*${Date.now()}`;
         const fileInfo = {
           filename: filename,
           bucketName: "uploads",
@@ -128,9 +128,9 @@ router.post("/register", async function (req, res, next) {
   }
 });
 
-router.get('/dashboard', (req, res) => {
-  res.redirect(`/dashboard/root`)
-})
+router.get("/dashboard", (req, res) => {
+  res.redirect(`/dashboard/root`);
+});
 
 router.get("/dashboard/:id", async (req, res) => {
   let folders = await folderModel.find();

@@ -287,18 +287,18 @@
                 >
                   Me Khali Karunga
                 </button>
-                <div class="left-collapse position-absolute" style="min-height: 120px">
-                  <div
-                    class="collapse"
-                    id="collapseExample"
-                  >
+                <div
+                  class="left-collapse position-absolute"
+                  style="min-height: 120px"
+                >
+                  <div class="collapse" id="collapseExample">
                     <ul
                       class="rollMenu shadow border-0 bg-white list-unstyled text-black py-2 px-1 rounded-3"
                     >
                       <li
                         data-bs-toggle="modal"
                         data-bs-target="#exampleModal"
-                        data-bs-whatever="@mdo"  
+                        data-bs-whatever="@mdo"
                       >
                         <a class="dropdown-item px-2" href="#"
                           ><i class="ri-folder-add-line me-2"></i> New Folder</a
@@ -326,7 +326,10 @@
           <hr class="mx-3 my-0" />
           <div class="historyTracker ms-3 mt-2">
             <i title="go back" class="ri-arrow-left-line previousPage p-2"></i>
-            <i title="go forward" class="ri-arrow-right-line forwardPage p-2"></i>
+            <i
+              title="go forward"
+              class="ri-arrow-right-line forwardPage p-2"
+            ></i>
           </div>
           <!-- <div class="contentRight shadow-sm"></div> -->
         </div>
@@ -350,35 +353,40 @@
           <h6 class="mb-3">Files</h6>
           <div class="fileWrapper row row-cols-5">
             <%files.forEach(function(elem){%>
-              <!-- <%=elem.filename.split("%20")[0]%> -->
-              <%let type = elem.filename.split("%20")[0].split(".")[1]%>
-              <div class="fileWrapper card mb-3 bg-transparent" style="max-width: 18rem;">
-                <div class="fileIconCtn card-body d-flex align-items-center justify-content-center">
-                  <% if(type === 'png' || type === 'jpg' || type === 'jpeg'){ %>
-                    <i class="ri-image-2-fill"></i>
-                  <% } else if(type === 'mp4'){ %>
-                    <i class="ri-movie-fill"></i>
-                  <% } else if(type === 'pdf'){ %>
-                    <i class="ri-file-pdf-fill"></i>
-                  <% } else if(type === 'docx'){ %>
-                    <i class="ri-file-word-fill"></i>
-                  <% } else if(type === 'pptx'){ %>
-                    <i class="ri-file-ppt-fill"></i>
-                  <% } %>
-                </div>
-                <div class="fileFooter p-1 d-flex align-items-end gap-1">
-                  <% if(type === 'png' || type === 'jpg' || type === 'jpeg'){ %>
-                    <i class="ri-image-2-fill"></i>
-                  <% } else if(type === 'mp4'){ %>
-                    <i class="ri-movie-fill"></i>
-                  <% } else if(type === 'pdf'){ %>
-                    <i class="ri-file-pdf-fill"></i>
-                  <% } else if(type === 'docx'){ %>
-                    <i class="ri-file-word-fill"></i>
-                  <% } %>
-                  <small class="m-0"><%=elem.filename.split("%20")[0]%></small>
-                </div>
+            <!-- <%=elem.filename.split("%20")[0]%> -->
+            <%let type = elem.filename.split("*")[0].split(".")[1]%>
+            <div
+              class="fileWrapper card mb-3 bg-transparent"
+              style="max-width: 18rem"
+            >
+              <div
+                class="fileIconCtn card-body d-flex align-items-center justify-content-center"
+              >
+                <% if(type === 'png' || type === 'jpg' || type === 'jpeg'){ %>
+                <i class="ri-image-2-fill"></i>
+                <% } else if(type === 'mp4'){ %>
+                <i class="ri-movie-fill"></i>
+                <% } else if(type === 'pdf'){ %>
+                <i class="ri-file-pdf-fill"></i>
+                <% } else if(type === 'docx'){ %>
+                <i class="ri-file-word-fill"></i>
+                <% } else if(type === 'pptx'){ %>
+                <i class="ri-file-ppt-fill"></i>
+                <% } %>
               </div>
+              <div class="fileFooter p-1 d-flex align-items-end gap-1">
+                <% if(type === 'png' || type === 'jpg' || type === 'jpeg'){ %>
+                <i class="ri-image-2-fill"></i>
+                <% } else if(type === 'mp4'){ %>
+                <i class="ri-movie-fill"></i>
+                <% } else if(type === 'pdf'){ %>
+                <i class="ri-file-pdf-fill"></i>
+                <% } else if(type === 'docx'){ %>
+                <i class="ri-file-word-fill"></i>
+                <% } %>
+                <small class="m-0"><%=elem.filename.split("*")[0]%></small>
+              </div>
+            </div>
             <% })%>
           </div>
         </div>
