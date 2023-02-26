@@ -127,7 +127,12 @@ router.post("/register", async function (req, res, next) {
     res.redirect("/signup");
   }
 });
-router.get("/dashboard", async (req, res) => {
+
+router.get('/dashboard', (req, res) => {
+  res.redirect(`/dashboard/root`)
+})
+
+router.get("/dashboard/:id", async (req, res) => {
   let folders = await folderModel.find();
   gfs.files.find().toArray(function (err, files) {
     if (err) {

@@ -204,6 +204,31 @@ html,body{
 .list{
     width: 100%;
 }
+.historyTracker i{
+    cursor: pointer;
+}
+.historyTracker i:hover{
+    border-radius: 50%;
+    background-color: #007bff44;
+}
+.fileWrapper{
+    gap: 1rem !important;
+}
+.fileWrapper i{
+    color: var(--themeBlue);
+}
+.fileIconCtn i{
+    font-size: 4rem; 
+}
+
+.fileFooter small{
+    font-family: Poppins;
+    white-space: nowrap;
+    width: 16rem;
+    overflow: hidden;
+  display: inline-block;
+  text-overflow: ellipsis;
+}
 /* .contentLeft{
     flex: 3;
 } */

@@ -45,6 +45,7 @@ allFolder.forEach((folder) => {
   });
 });
 
+let collapseMenu = document.querySelector('#collapseExample');
 window.addEventListener("click", (e) => {
   if (
     !e.target.classList.contains("folderDiv") &&
@@ -54,6 +55,9 @@ window.addEventListener("click", (e) => {
     allFolder.forEach((folderDiv) => {
       folderDiv.classList.remove("folderDivSelected");
     });
+  }
+  if(collapseMenu.classList.contains('show')){
+    collapseMenu.classList.remove('show');
   }
 });
 
@@ -76,7 +80,20 @@ exampleModal.addEventListener("show.bs.modal", function (event) {
   // Button that triggered the modal
   var button = event.relatedTarget;
   var parentId = button.getAttribute("data-bs-parentId");
-  console.log(parentId);
-  var parentIdInput = document.querySelector(".parentId");
-  parentIdInput.value = parentId;
+  console.log(parentId.length);
+  if(parentId.length < 1){
+    console.log('no parent i.e. root folder')
+  }else{
+    console.log('This folder is beind created inside '+parentId);
+    var parentIdInput = document.querySelector(".parentId");
+    parentIdInput.value = parentId;
+  }
+});
+
+// previous and forward button
+document.querySelector('.previousPage').addEventListener('click', () => {
+  history.back();
+});
+document.querySelector('.forwardPage').addEventListener('click', () => {
+  history.forward();
 });

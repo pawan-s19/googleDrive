@@ -190,7 +190,7 @@
                     <li
                       data-bs-toggle="modal"
                       data-bs-target="#exampleModal"
-                      data-bs-parentId="<%=folders[0]._id%>"
+                      data-bs-parentId="<%=folders[0]?._id%>"
                     >
                       <a class="dropdown-item" href="#"
                         ><i class="ri-folder-add-line me-2"></i> New Folder
@@ -276,7 +276,7 @@
             </div>
             <div class="path mx-4 d-flex align-items-center">
               Mydrive>Local>To>
-              <div >
+              <div>
                 <button
                   class="btn bg-none border-0 text-nowrap"
                   type="button"
@@ -324,6 +324,10 @@
             </div>
           </nav>
           <hr class="mx-3 my-0" />
+          <div class="historyTracker ms-3 mt-2">
+            <i title="go back" class="ri-arrow-left-line previousPage p-2"></i>
+            <i title="go forward" class="ri-arrow-right-line forwardPage p-2"></i>
+          </div>
           <!-- <div class="contentRight shadow-sm"></div> -->
         </div>
         <div class="container-fluid px-4 py-3 folderCtn">
@@ -344,16 +348,37 @@
           </div>
           <%}else{%> <%}%>
           <h6 class="mb-3">Files</h6>
-          <div class="folderWrapper row row-cols-5">
+          <div class="fileWrapper row row-cols-5">
             <%files.forEach(function(elem){%>
-            <div
-              class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded"
-            >
-              <i class="ri-folder-5-fill"></i>
-              <p title="my cloud" class="m-0">
-                <%=elem.filename.split("%20")[0]%>
-              </p>
-            </div>
+              <!-- <%=elem.filename.split("%20")[0]%> -->
+              <%let type = elem.filename.split("%20")[0].split(".")[1]%>
+              <div class="fileWrapper card mb-3 bg-transparent" style="max-width: 18rem;">
+                <div class="fileIconCtn card-body d-flex align-items-center justify-content-center">
+                  <% if(type === 'png' || type === 'jpg' || type === 'jpeg'){ %>
+                    <i class="ri-image-2-fill"></i>
+                  <% } else if(type === 'mp4'){ %>
+                    <i class="ri-movie-fill"></i>
+                  <% } else if(type === 'pdf'){ %>
+                    <i class="ri-file-pdf-fill"></i>
+                  <% } else if(type === 'docx'){ %>
+                    <i class="ri-file-word-fill"></i>
+                  <% } else if(type === 'pptx'){ %>
+                    <i class="ri-file-ppt-fill"></i>
+                  <% } %>
+                </div>
+                <div class="fileFooter p-1 d-flex align-items-end gap-1">
+                  <% if(type === 'png' || type === 'jpg' || type === 'jpeg'){ %>
+                    <i class="ri-image-2-fill"></i>
+                  <% } else if(type === 'mp4'){ %>
+                    <i class="ri-movie-fill"></i>
+                  <% } else if(type === 'pdf'){ %>
+                    <i class="ri-file-pdf-fill"></i>
+                  <% } else if(type === 'docx'){ %>
+                    <i class="ri-file-word-fill"></i>
+                  <% } %>
+                  <small class="m-0"><%=elem.filename.split("%20")[0]%></small>
+                </div>
+              </div>
             <% })%>
           </div>
         </div>
