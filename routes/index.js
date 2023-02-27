@@ -7,10 +7,67 @@ const otpModel = require("../models/otpModel");
 
 const localStrategy = require("passport-local");
 const mailer = require("../nodemailer");
-
+const { GridFsStorage } = require("multer-gridfs-storage");
+const gridStream = require("gridfs-stream");
+const multer = require("multer");
+const mongoose = require("mongoose");
+const crypto = require("crypto");
+const path = require("path");
+const folderModel = require("../models/folderModel");
 passport.use(new localStrategy(usermodel.authenticate()));
 
+//making connection to gridfs stream
+let gfs;
+let conn = mongoose.createConnection("mongodb://localhost:27017/gridfs");
+conn.once("open", function () {
+  gfs = gridStream(conn, mongoose.mongo);
+  gfs.collection("uploads");
+});
+
+//initializing the storage using multer gridfs storage
+
+var storage = new GridFsStorage({
+  db: conn,
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) {
+          return reject(err);
+        }
+        // const filename = buf.toString("hex") + path.extname(file.originalname);
+        const filename = `${file.originalname}*${Date.now()}`;
+        const fileInfo = {
+          filename: filename,
+          bucketName: "uploads",
+        };
+        resolve(fileInfo);
+      });
+    });
+  },
+});
+const upload = multer({ storage });
+
 /* GET home page. */
+
+router.post("/upload", upload.single("file"), (req, res) => {
+  // res.json({ file: req.file });
+  res.redirect(req.headers.referer);
+});
+
+router.get("/file/:id", async (req, res) => {
+  gfs.files.findOne({ filename: req.params.id }, (err, file) => {
+    res.json(file);
+  });
+});
+router.get("/all/file", (req, res) => {});
+router.post("/createfolder", async (req, res) => {
+  let folder = await folderModel.create({ name: req.body.foldername });
+  folder.parent.push(req.body.parentId);
+  await folder.save();
+  res.redirect("/dashboard");
+  console.log(req.body.parentId);
+});
+
 router.get("/", function (req, res) {
   try {
     if (req.isAuthenticated() || req.user) {
@@ -24,6 +81,9 @@ router.get("/", function (req, res) {
 });
 router.get("/signup", function (req, res) {
   res.render("signup");
+});
+router.get("/loginPage", function (req, res) {
+  res.render("login");
 });
 router.post("/register", async function (req, res, next) {
   try {
@@ -68,6 +128,25 @@ router.post("/register", async function (req, res, next) {
   }
 });
 
+router.get("/dashboard", (req, res) => {
+  res.redirect(`/dashboard/root`);
+});
+
+router.get("/dashboard/:id", async (req, res) => {
+  let folders = await folderModel.find();
+  gfs.files.find().toArray(function (err, files) {
+    if (err) {
+      res.json(err);
+    }
+
+    res.render("dss", { folders, files });
+  });
+});
+
+router.get("/folder/:id", async (req, res) => {
+  let folder = await folderModel.findById(req.params.id);
+  res.render("folder", { folder });
+});
 router.post("/sendOtp", async (req, res) => {
   try {
     const otp = Math.floor(Math.random() * 1000000);

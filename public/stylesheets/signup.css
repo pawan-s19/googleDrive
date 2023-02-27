@@ -7,7 +7,8 @@
 .right {
   width: 64%;
   height: 100%;
-  padding: 6vmax 7vmax;
+  /* padding: 4vmax 7vmax; */
+  padding: 3.5em 4em;
 }
 .left img {
   height: 100%;
@@ -47,6 +48,9 @@
   font-family: "Roboto";
   font-size: 1.9vmax;
 }
+.right .form img{
+  width:2.2vmax;
+}
 .right .form h5 {
   color: #726363;
   font-family: "Poppins";
@@ -64,11 +68,27 @@
 .right .form form button {
   width: 100%;
   border-radius: 1em;
-  background-color: #70befa;
+  /* background-color: #70befa; */
+  background-color: #014a82;
   color: white;
   border: none;
 }
 .right .form h6 {
   color: #726363;
   font-weight: 400;
+}
+
+
+@media screen and (max-width: 900px) {
+  .left {
+      display: none;
+  }
+  .right{
+    width:100%;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
 }

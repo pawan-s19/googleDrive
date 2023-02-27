@@ -1,0 +1,101 @@
+*{
+    font-family: Poppins;
+}
+.left{
+    
+    /* width:55%; */
+    height:100%;
+    padding:2vmax 10vmax;
+    
+    
+}
+.right{
+    /* background-color: #137DF9; */
+    background-color: #1b84ffeb;
+    /* width:45%; */
+    height:100%;
+    color:white;
+}
+
+.left h6{
+    color:#726363;
+    font-size: 1.5rem;
+}
+.left .form form input {
+    background-color: #f2f9ff;
+    border: none;
+    margin-bottom: 2.2em;
+    padding: 0.5vmax 1vmax;
+  }
+  .left .form small{
+    font-weight: 300;
+  }
+  .left .form form button {
+    width: 100%;
+    border-radius: 1em;
+    /* background-color: #70befa; */
+    background-color: #014a82;
+    color: white;
+    border: none;
+  } 
+
+  .google-btn{
+    background-color: #F5F5F5;
+    width:100%;
+    border-radius: 1em;
+    border: none;
+  }
+  .google-btn:hover{
+    background-color: rgb(235, 235, 235);
+  }
+ .google-link{
+    text-decoration: none;
+    color:black;
+    white-space: nowrap;
+  }
+  
+  .google-logo{
+    height:1.4em;
+    
+  }
+
+  .right img{
+    width:30vmax;
+  }
+  .right h1{
+    font-weight: 900;
+    font-size: 3.5vmax;
+  }
+  .right h5{
+    color:#dddddd;
+    font-weight: 100;
+    font-size: 1.1vmax;
+line-height: 1.2em;
+
+  }
+
+  @media screen and (max-width: 900px) {
+    .right {
+        visibility: hidden;
+        display: none;
+        padding: 0 !important;
+    }
+    .left{
+      width:100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .left .text{
+      width: 100%;
+    }
+    .rightImg{
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 363px){
+    .google-link{
+      white-space: normal;
+    } 
+  }
