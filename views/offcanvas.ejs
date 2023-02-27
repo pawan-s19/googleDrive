@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/dss.css">
+    <title>Document</title>
+  </head>
+  <body>
+    <div
+      class="offcanvas offcanvas-start text-bg-dark"
+      tabindex="-1"
+      id="offcanvasExample"
+      aria-labelledby="offcanvasExampleLabel"
+    >
+      <div class="offcanvas-header">
+        <div class="leftBrandMenu">
+          <img src="/assets/brand2.png" alt="">
+        </div>
+        <button
+          type="button"
+          class="btn-close btn-close-white text-reset"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body d-flex flex-column justify-content-between">
+        <div class="leftOptions d-flex flex-column gap-2 justify-content-start">
+          <a class="text-decoration-none" href="">
+              <div class="OptionCtn selected d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
+                  <i class="ri-folder-5-fill"></i>
+                  <p class="m-0">My Cloud</p>
+              </div>
+          </a>
+          <a title="See All Shared Files"  class="text-decoration-none" href="">
+              <div class="OptionCtn d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
+                  <i class="ri-folder-shared-fill"></i>
+                  <p class="m-0">Shared</p>
+              </div>
+          </a>
+          <a title="See All Files Uploaded"  class="text-decoration-none" href="">
+              <div class="OptionCtn d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
+                  <i class="ri-file-3-fill"></i>
+                  <p class="m-0">All Files</p>
+              </div>
+          </a>
+          <a title="See Favourite Files"  class="text-decoration-none" href="">
+              <div class="OptionCtn d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
+                  <i class="ri-star-s-fill"></i>
+                  <p class="m-0">Starred</p>
+              </div>
+          </a>
+          <a title="See Deleted Files" class="text-decoration-none" href="">
+              <div class="OptionCtn d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded">
+                  <i class="ri-delete-bin-fill"></i>
+                  <p class="m-0">Recycle Bin</p>
+              </div>
+          </a>
+        </div>
+        <div class="leftBottom">
+            <div class="OptionCtnBtm d-flex align-items-center justify-content-start gap-2 py-2 rounded">
+                <i class="ri-hard-drive-2-fill"></i>
+                <p class="m-0">Storage Used</p>
+            </div>
+            <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" style="width: 25%"></div>
+            </div>
+            <small>125MB Out Of 500MB</small>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

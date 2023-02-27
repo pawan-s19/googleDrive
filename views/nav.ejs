@@ -1,4 +1,4 @@
-<div class="nav d-flex justify-content-between align-items-center py-4 px-5">
+<!-- <div class="nav d-flex justify-content-between align-items-center py-4 px-5">
   <div class="logo d-flex ms-5">
     <img src="..//assets/cloudUplogo.png" class="me-2 h-100 w-100" />
     <h6>CLOUDUP</h6>
@@ -8,10 +8,48 @@
     <h6 class="mx-5">Pricing</h6>
     <h6 class="mx-5">About Us</h6>
   </div>
-  <div class="auth me-5">
-    <button class="me-2">LOGIN</button>
+  <div  class="auth me-5">
+    <button  class="me-2"><a style="text-decoration: none; color: black" href="/loginPage">LOGIN</a></button>
     <button>
       <a style="text-decoration: none; color: black" href="/signup">SIGNUP</a>
     </button>
   </div>
-</div>
+</div> -->
+<nav class="navbar navbar-expand-md bg-body-tertiary px-2 pb-0">
+  <div class="container-fluid">
+    <div class="logo d-flex">
+      <img src="..//assets/cloudUplogo.png" class="me-2 h-100 w-100" />
+      <h6>CLOUDUP</h6>
+    </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+        <li class="nav-item fw-semibold fs-5">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item fw-semibold fs-5">
+          <a class="nav-link" href="#">Pricing</a>
+        </li>
+        <li class="nav-item fw-semibold fs-5">
+          <a class="nav-link" href="#">About</a>
+        </li>
+        <li class="nav-item fw-semibold fs-5 after">
+          <a class="nav-link" href="/loginPage">Login</a>
+        </li>
+        <li class="nav-item fw-semibold fs-5 after">
+          <a class="nav-link btn" href="/signup">Signup</a>
+        </li>
+      </ul>
+      <div class="auth before">
+        <button class="me-2">
+          <a class="fw-semibold fs-5" style="text-decoration: none; color: black" href="/loginPage">Login</a>
+        </button>
+        <button>
+          <a class="fw-semibold" style="text-decoration: none; color: black" href="/signup">SIGNUP</a>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>

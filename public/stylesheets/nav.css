@@ -7,7 +7,7 @@
   font-family: "Roboto";
   font-size: 1.1em;
 }
-.nav .auth button {
+.auth button {
   padding: 0.3vmax 1vmax;
   background-color: transparent;
   border: none;
@@ -17,6 +17,33 @@
   font-weight: 700;
   color: rgb(59, 59, 59);
 }
-.nav .auth button:nth-child(2) {
+.auth button:nth-child(2) {
   background-color: #c3e5ff;
+}
+.btn{
+  background-color: #c3e5ff;
+}
+li{
+  margin-left: 4vmax;
+}
+.after{
+  display: none;
+}
+.nav-link:focus, .nav-link:hover{
+  color: #0090ff !important;
+}
+@media only screen and (max-width: 767px) {
+  li{
+    margin-left: 0;
+  }
+  .before{
+    display: none;
+  }
+  .after{
+    display: block;
+  }
+  .btn{
+    background-color: rgba(255, 0, 0, 0);
+    text-align: left;
+  }
 }

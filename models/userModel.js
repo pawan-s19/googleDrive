@@ -2,7 +2,7 @@
 var mongoose=require('mongoose');
 var plm=require('passport-local-mongoose');
 
-mongoose.connect('mongodb+srv://Sushant_8083:Sushant%402003@cluster0.eqii0la.mongodb.net/?retryWrites=true&w=majority')
+mongoose.connect('mongodb://localhost:27017/gridfs')
 .then(function(data){
   console.log(`Database connected\nServer running at port : ${data.connection.host}`);
 })
