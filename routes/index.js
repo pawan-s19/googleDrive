@@ -13,6 +13,8 @@ const multer = require("multer");
 const mongoose = require("mongoose");
 const crypto = require("crypto");
 const path = require("path");
+const bcrypt = require("bcrypt");
+const shaareModel = require("../models/shareFile")
 const folderModel = require("../models/folderModel");
 passport.use(new localStrategy(usermodel.authenticate()));
 
@@ -20,6 +22,9 @@ passport.use(new localStrategy(usermodel.authenticate()));
 let gfs;
 let conn = mongoose.createConnection("mongodb://localhost:27017/gridfs");
 conn.once("open", function () {
+  gridFsBucket = new mongoose.mongo.GridFSBucket(conn.db, {
+    bucketName: "uploads",
+  });
   gfs = gridStream(conn, mongoose.mongo);
   gfs.collection("uploads");
 });
@@ -270,6 +275,50 @@ router.get(
 router.get("/auth/google/failure", (req, res) => {
   res.send("Failed to authenticate..");
 });
+
+router.get("/share/:filename", async (req, res) => {
+ 
+  await gfs.files.findOne({ filename: req.params.filename }, async(err, file) => {
+    const filedata = {
+      path : file._id ,
+      originalname: file.filename.split("*")[0] ,
+    }
+    // if(req.body.password != null && req.body.password !== ""){
+    //   filedata.password = await bcrypt.hash(req.body.password , 10)
+    // }
+  
+    const sharefile =  await shaareModel.create(filedata)
+    
+    // res.render('index', {filelink : `${req.headers.origin}/file/${user._id}`})
+    res.send(`http://localhost:3000/sharefile/${sharefile._id}`)
+  });
+  
+});
+
+router.get("/sharefile/:id", async(req, res) => {
+  const file = await shaareModel.findById(req.params.id)
+
+  // if (file.password != null) {
+  //   if (req.body.password == null) {
+  //     res.render("password")
+  //     return
+  //   }
+
+  //   if (!(await bcrypt.compare(req.body.password, file.password))) {
+  //     res.render("password", { error: true })
+  //     return
+  //   }
+  // }
+
+  file.downloadCount++
+  await file.save()
+  console.log(file.downloadCount)
+  // console.log(file.path)
+
+  const readStream = gridFsBucket.openDownloadStream(file.path);
+    readStream.pipe(res);
+});
+
 
 function isLoggedIn(req, res, next) {
   // req.user ? next() : res.sendStatus(401);
