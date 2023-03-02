@@ -23,21 +23,21 @@ listViewBtn.addEventListener("click", function () {
   });
 });
 
-// document.querySelector(".folderWrapper").addEventListener("click", (e) => {
-//   // console.log(e.target.getElementsByTagName('p')[0].innerHTML + " is clicked")
-//   if (e.target.classList.contains("folderDiv")) {
-//     allFolder.forEach((folderDiv) => {
-//       folderDiv.classList.remove("folderDivSelected");
-//     });
-//     e.target.classList.add("folderDivSelected");
-//     optionsWrapper.style.display = "flex";
-//   } else {
-//     allFolder.forEach((folderDiv) => {
-//       folderDiv.classList.remove("folderDivSelected");
-//     });
-//     optionsWrapper.style.display = "none";
-//   }
-// });
+document.querySelector(".folderWrapper").addEventListener("click", (e) => {
+  // console.log(e.target.getElementsByTagName('p')[0].innerHTML + " is clicked")
+  if (e.target.classList.contains("folderDiv")) {
+    allFolder.forEach((folderDiv) => {
+      folderDiv.classList.remove("folderDivSelected");
+    });
+    e.target.classList.add("folderDivSelected");
+    optionsWrapper.style.display = "flex";
+  } else {
+    allFolder.forEach((folderDiv) => {
+      folderDiv.classList.remove("folderDivSelected");
+    });
+    optionsWrapper.style.display = "none";
+  }
+});
 
 allFolder.forEach((folder) => {
   folder.addEventListener("click", (e) => {

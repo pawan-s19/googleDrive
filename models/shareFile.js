@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const shareFile = new mongoose.Schema({
   path : {
-    type : String,
+    type : mongoose.Schema.Types.ObjectId,
     require : true
   },
   originalname :{

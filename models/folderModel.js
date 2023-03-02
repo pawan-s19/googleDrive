@@ -7,10 +7,7 @@ var folderSchema = new mongoose.Schema(
     parent: [{ type: mongoose.Schema.Types.ObjectId, ref: "folderModel" }],
     folders: [{ type: mongoose.Schema.Types.ObjectId }],
     files: [{ type: String }],
-    isRoot: {
-      type: Boolean,
-      default: false,
-    },
+   
   },
   { timestamps: true }
 );

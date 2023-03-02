@@ -14,12 +14,12 @@ const mongoose = require("mongoose");
 const crypto = require("crypto");
 const path = require("path");
 const bcrypt = require("bcrypt");
-const shaareModel = require("../models/shareFile")
+const shaareModel = require("../models/shareFile");
 const folderModel = require("../models/folderModel");
 passport.use(new localStrategy(usermodel.authenticate()));
 
 //making connection to gridfs stream
-let gfs;
+let gfs, gridFsBucket;
 let conn = mongoose.createConnection("mongodb://localhost:27017/gridfs");
 conn.once("open", function () {
   gridFsBucket = new mongoose.mongo.GridFSBucket(conn.db, {
@@ -40,7 +40,7 @@ var storage = new GridFsStorage({
           return reject(err);
         }
         // const filename = buf.toString("hex") + path.extname(file.originalname);
-        const filename = `${file.originalname}*${Date.now()}`;
+        const filename = `${Date.now()}*${file.originalname}`;
         const fileInfo = {
           filename: filename,
           bucketName: "uploads",
@@ -59,11 +59,6 @@ router.post("/upload", upload.single("file"), (req, res) => {
   res.redirect(req.headers.referer);
 });
 
-router.get("/file/:id", async (req, res) => {
-  gfs.files.findOne({ filename: req.params.id }, (err, file) => {
-    res.json(file);
-  });
-});
 router.get("/all/file", (req, res) => {});
 router.post("/createfolder", async (req, res) => {
   let folder = await folderModel.create({ name: req.body.foldername });
@@ -276,50 +271,67 @@ router.get("/auth/google/failure", (req, res) => {
   res.send("Failed to authenticate..");
 });
 
-router.get("/share/:filename", async (req, res) => {
- 
-  await gfs.files.findOne({ filename: req.params.filename }, async(err, file) => {
-    const filedata = {
-      path : file._id ,
-      originalname: file.filename.split("*")[0] ,
-    }
-    // if(req.body.password != null && req.body.password !== ""){
-    //   filedata.password = await bcrypt.hash(req.body.password , 10)
-    // }
-  
-    const sharefile =  await shaareModel.create(filedata)
-    
-    // res.render('index', {filelink : `${req.headers.origin}/file/${user._id}`})
-    res.send(`http://localhost:3000/sharefile/${sharefile._id}`)
-  });
-  
-});
-
-router.get("/sharefile/:id", async(req, res) => {
-  const file = await shaareModel.findById(req.params.id)
-
-  // if (file.password != null) {
-  //   if (req.body.password == null) {
-  //     res.render("password")
-  //     return
-  //   }
-
-  //   if (!(await bcrypt.compare(req.body.password, file.password))) {
-  //     res.render("password", { error: true })
-  //     return
-  //   }
-  // }
-
-  file.downloadCount++
-  await file.save()
-  console.log(file.downloadCount)
-  // console.log(file.path)
-
-  const readStream = gridFsBucket.openDownloadStream(file.path);
+router.get("/file/:id", async (req, res) => {
+  gfs.files.findOne({ filename: req.params.id }, (err, file) => {
+    console.log(file);
+    const readStream = gridFsBucket.openDownloadStream(file._id);
     readStream.pipe(res);
+  });
 });
 
+router.get("/share/:filename", async (req, res) => {
+  await gfs.files.findOne(
+    { filename: req.params.filename },
+    async (err, file) => {
+      const filedata = {
+        password: "12345",
+        path: file._id,
+        originalname: file.filename.split("*")[0],
+      };
+      // if(req.body.password != null && req.body.password !== ""){
+      //   filedata.password = await bcrypt.hash(req.body.password , 10)
+      // }
+      filedata.password = await bcrypt.hash(filedata.password, 10);
+      const sharefile = await shaareModel.create(filedata);
+      console.log(sharefile);
+      // res.render('index', {filelink : `${req.headers.origin}/file/${user._id}`})
+      res.send(`http://localhost:3000/sharefile/${sharefile._id}`);
+      // const readStream = gridFsBucket.openDownloadStream(file._id);
+      // readStream.pipe(res);
+    }
+  );
+});
 
+router
+  .route("/sharefile/:id")
+  .get(async (req, res) => {
+    const shareFile = await shaareModel.findById(req.params.id);
+    console.log(shareFile);
+    if (shareFile.password !== null) {
+      res.render("password");
+    }
+  })
+  .post(async (req, res) => {
+    console.log(req.params.id + "ye ha id");
+    const shareFile = await shaareModel.findById(req.params.id);
+    console.log(shareFile);
+    if (shareFile.password != null) {
+      if (await bcrypt.compare(req.body.password, shareFile.password)) {
+        gfs.files.findOne({ _id: shareFile.path }, async (err, file) => {
+          res.set({
+            "Content-Type": file.contentType,
+            "Content-Disposition": "attachment; filename=" + file.filename,
+          });
+          const readStream = await gridFsBucket.openDownloadStreamByName(
+            file.filename
+          );
+          readStream.pipe(res);
+        });
+      } else {
+        res.render("password", { error: true });
+      }
+    }
+  });
 function isLoggedIn(req, res, next) {
   // req.user ? next() : res.sendStatus(401);
   if (req.isAuthenticated() || req.user) {
