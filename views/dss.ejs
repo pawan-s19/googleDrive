@@ -370,6 +370,7 @@
             <div
               class="fileDiv card mb-3 bg-transparent"
               style="max-width: 18rem"
+              data-bs-fileId="<%=elem.filename%>"
             >
               <div
                 class="fileIconCtn card-body d-flex align-items-center justify-content-center"
@@ -407,7 +408,7 @@
             <% })%>
           </div>
           <%} else{ %>
-            <div class="fileWrapper"></div>
+          <div class="fileWrapper"></div>
           <% } %>
         </div>
       </div>
@@ -542,29 +543,17 @@
                         Ashutosh Pandey (You)
                       </p>
                       <div class="dropdown-center">
-                        <ul class="dropdown-menu shadow border-0">
-                          <li
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                            data-bs-parentId="<%=folders[0]?._id%>"
-                          >
-                            <a class="dropdown-item" href="#"
-                              ><i class="ri-folder-add-line me-2"></i> New
-                              Folder
+                        <ul class="dropdown-menu shadow border-0 shareRole">
+                          <li>
+                            <a class="dropdown-item public"
+                              ><i class="ri-folder-add-line me-2"></i> Public
                             </a>
                           </li>
-                          <hr />
+
                           <li>
-                            <a class="dropdown-item" href="#"
-                              ><i class="ri-file-upload-line me-2"></i> Upload
-                              File</a
-                            >
-                          </li>
-                          <li>
-                            <a class="dropdown-item" href="#"
-                              ><i class="ri-folder-upload-line me-2"></i> Upload
-                              Folder</a
-                            >
+                            <a class="dropdown-item private"
+                              ><i class="ri-file-upload-line me-2"></i>Private
+                            </a>
                           </li>
                         </ul>
                       </div>
