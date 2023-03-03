@@ -45,7 +45,7 @@ allFolder.forEach((folder) => {
   });
 });
 
-let collapseMenu = document.querySelector('#collapseExample');
+let collapseMenu = document.querySelector("#collapseExample");
 window.addEventListener("click", (e) => {
   if (
     !e.target.classList.contains("folderDiv") &&
@@ -56,8 +56,8 @@ window.addEventListener("click", (e) => {
       folderDiv.classList.remove("folderDivSelected");
     });
   }
-  if(collapseMenu.classList.contains('show')){
-    collapseMenu.classList.remove('show');
+  if (collapseMenu.classList.contains("show")) {
+    collapseMenu.classList.remove("show");
   }
 });
 
@@ -81,19 +81,28 @@ exampleModal.addEventListener("show.bs.modal", function (event) {
   var button = event.relatedTarget;
   var parentId = button.getAttribute("data-bs-parentId");
   console.log(parentId.length);
-  if(parentId.length < 1){
-    console.log('no parent i.e. root folder')
-  }else{
-    console.log('This folder is beind created inside '+parentId);
+  if (parentId.length < 1) {
+    console.log("no parent i.e. root folder");
+  } else {
+    console.log("This folder is beind created inside " + parentId);
     var parentIdInput = document.querySelector(".parentId");
     parentIdInput.value = parentId;
   }
 });
 
 // previous and forward button
-document.querySelector('.previousPage').addEventListener('click', () => {
+document.querySelector(".previousPage").addEventListener("click", () => {
   history.back();
 });
-document.querySelector('.forwardPage').addEventListener('click', () => {
+document.querySelector(".forwardPage").addEventListener("click", () => {
   history.forward();
+});
+
+document.querySelector(".folderWrapper").addEventListener("dblclick", (e) => {
+  // console.log(e.target.getElementsByTagName('p')[0].innerHTML + " is clicked")
+  if (e.target.classList.contains("folderDiv")) {
+    let folderId = e.target.getAttribute("data-bs-folderId");
+
+    window.location.href = `http://localhost:3000/dashboard/${folderId}`;
+  }
 });

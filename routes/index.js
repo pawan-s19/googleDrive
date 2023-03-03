@@ -13,13 +13,21 @@ const multer = require("multer");
 const mongoose = require("mongoose");
 const crypto = require("crypto");
 const path = require("path");
+const bcrypt = require("bcrypt");
+const shaareModel = require("../models/shareFile");
 const folderModel = require("../models/folderModel");
+
 passport.use(new localStrategy(usermodel.authenticate()));
 
 //making connection to gridfs stream
-let gfs;
-let conn = mongoose.createConnection("mongodb://localhost:27017/gridfs");
+let gfs, gridFsBucket;
+let conn = mongoose.createConnection(
+  "mongodb+srv://Sushant_8083:Sushant%402003@cluster0.eqii0la.mongodb.net/?retryWrites=true&w=majority"
+);
 conn.once("open", function () {
+  gridFsBucket = new mongoose.mongo.GridFSBucket(conn.db, {
+    bucketName: "uploads",
+  });
   gfs = gridStream(conn, mongoose.mongo);
   gfs.collection("uploads");
 });
@@ -35,7 +43,7 @@ var storage = new GridFsStorage({
           return reject(err);
         }
         // const filename = buf.toString("hex") + path.extname(file.originalname);
-        const filename = `${file.originalname}*${Date.now()}`;
+        const filename = `${Date.now()}*${file.originalname}`;
         const fileInfo = {
           filename: filename,
           bucketName: "uploads",
@@ -54,19 +62,7 @@ router.post("/upload", upload.single("file"), (req, res) => {
   res.redirect(req.headers.referer);
 });
 
-router.get("/file/:id", async (req, res) => {
-  gfs.files.findOne({ filename: req.params.id }, (err, file) => {
-    res.json(file);
-  });
-});
 router.get("/all/file", (req, res) => {});
-router.post("/createfolder", async (req, res) => {
-  let folder = await folderModel.create({ name: req.body.foldername });
-  folder.parent.push(req.body.parentId);
-  await folder.save();
-  res.redirect("/dashboard");
-  console.log(req.body.parentId);
-});
 
 router.get("/", function (req, res) {
   try {
@@ -85,6 +81,14 @@ router.get("/signup", function (req, res) {
 router.get("/loginPage", function (req, res) {
   res.render("login");
 });
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/dashboard",
+    failureRedirect: "/",
+  })
+);
+
 router.post("/register", async function (req, res, next) {
   try {
     if (!req.body.username || !req.body.email || !req.body.password) {
@@ -111,29 +115,30 @@ router.post("/register", async function (req, res, next) {
       });
       return res.redirect("/signup");
     } else {
-      res.render("verifyEmail", { SigningUser: req.body });
-      // var newUser = new usermodel({
-      // username:req.body.username,
-      // email: req.body.email
-      // })
-      // usermodel.register(newUser,req.body.password)
-      // .then(function(registereduser){
-      //   passport.authenticate('local')(req,res,function(){
-      //     res.redirect('/profile')
-      //   })
-      // });
+      // res.render("verifyEmail", { SigningUser: req.body });
+      var newUser = new usermodel({
+        username: req.body.username,
+        email: req.body.email,
+      });
+      usermodel
+        .register(newUser, req.body.password)
+        .then(function (registereduser) {
+          passport.authenticate("local")(req, res, function () {
+            res.redirect("/dashboard");
+          });
+        });
     }
   } catch (error) {
     res.redirect("/signup");
   }
 });
 
-router.get("/dashboard", (req, res) => {
+router.get("/dashboard", isLoggedIn, (req, res) => {
   res.redirect(`/dashboard/root`);
 });
 
-router.get("/dashboard/:id", async (req, res) => {
-  let folders = await folderModel.find();
+router.get("/dashboard/:id", isLoggedIn, async (req, res) => {
+  let folders = await folderModel.find({parent:req.params.id});
   gfs.files.find().toArray(function (err, files) {
     if (err) {
       res.json(err);
@@ -142,7 +147,20 @@ router.get("/dashboard/:id", async (req, res) => {
     res.render("dss", { folders, files });
   });
 });
+router.post("/createfolder", isLoggedIn, async (req, res) => {
+  let urlArray = req.headers.referer.split("/");
+  let parentId = urlArray[urlArray.length - 1];
 
+ 
+
+  let folder = await folderModel.create({
+    name: req.body.foldername,
+    parent: parentId,
+    user: req.session.passport.user._id,
+  });
+  
+  res.redirect("/dashboard");
+});
 router.get("/folder/:id", async (req, res) => {
   let folder = await folderModel.findById(req.params.id);
   res.render("folder", { folder });
@@ -227,14 +245,6 @@ router.get("/check", async function (req, res) {
   }
 });
 
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/profile",
-    failureRedirect: "/",
-  })
-);
-
 router.get("/logout", function (req, res, next) {
   req.logout(function (err) {
     if (err) {
@@ -271,6 +281,67 @@ router.get("/auth/google/failure", (req, res) => {
   res.send("Failed to authenticate..");
 });
 
+router.get("/file/:id", async (req, res) => {
+  gfs.files.findOne({ filename: req.params.id }, (err, file) => {
+    console.log(file);
+    const readStream = gridFsBucket.openDownloadStream(file._id);
+    readStream.pipe(res);
+  });
+});
+
+router.get("/share/:filename", async (req, res) => {
+  await gfs.files.findOne(
+    { filename: req.params.filename },
+    async (err, file) => {
+      const filedata = {
+        password: "12345",
+        path: file._id,
+        originalname: file.filename.split("*")[0],
+      };
+      // if(req.body.password != null && req.body.password !== ""){
+      //   filedata.password = await bcrypt.hash(req.body.password , 10)
+      // }
+      filedata.password = await bcrypt.hash(filedata.password, 10);
+      const sharefile = await shaareModel.create(filedata);
+      console.log(sharefile);
+      // res.render('index', {filelink : `${req.headers.origin}/file/${user._id}`})
+      res.send(`http://localhost:3000/sharefile/${sharefile._id}`);
+      // const readStream = gridFsBucket.openDownloadStream(file._id);
+      // readStream.pipe(res);
+    }
+  );
+});
+
+router
+  .route("/sharefile/:id")
+  .get(async (req, res) => {
+    const shareFile = await shaareModel.findById(req.params.id);
+    console.log(shareFile);
+    if (shareFile.password !== null) {
+      res.render("password");
+    }
+  })
+  .post(async (req, res) => {
+    console.log(req.params.id + "ye ha id");
+    const shareFile = await shaareModel.findById(req.params.id);
+    console.log(shareFile);
+    if (shareFile.password != null) {
+      if (await bcrypt.compare(req.body.password, shareFile.password)) {
+        gfs.files.findOne({ _id: shareFile.path }, async (err, file) => {
+          res.set({
+            "Content-Type": file.contentType,
+            "Content-Disposition": "attachment; filename=" + file.filename,
+          });
+          const readStream = await gridFsBucket.openDownloadStreamByName(
+            file.filename
+          );
+          readStream.pipe(res);
+        });
+      } else {
+        res.render("password", { error: true });
+      }
+    }
+  });
 function isLoggedIn(req, res, next) {
   // req.user ? next() : res.sendStatus(401);
   if (req.isAuthenticated() || req.user) {
