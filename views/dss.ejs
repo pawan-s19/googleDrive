@@ -218,6 +218,14 @@
                       class="deleteIcon optionIcons p-2 rounded-circle ri-delete-bin-fill"
                     ></i>
                   </a>
+                  <a class="text-decoration-none text-dark">
+                    <i
+                      class="optionIcons p-2 rounded-circle ri-share-fill"
+                      data-bs-toggle="modal"
+                      data-bs-target="#shareModal"
+                      data-bs-whatever="@mdo"
+                    ></i>
+                  </a>
                   <div class="btn-group dropstart">
                     <button
                       type="button"
@@ -336,23 +344,21 @@
         <div class="container-fluid px-4 py-3 folderCtn">
           <div>
             <% if(folders.length > 0){ %>
-              <h6 class="mb-3">Folders</h6>
-              <div class="folderWrapper row row-cols-6 mb-5">
-                <%folders.forEach(function(elem){%> 
-                <div
-                  data-bs-folderId="<%=elem._id%>"
-                  class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded"
-                >
-                  <i class="ri-folder-5-fill"></i>
-                  <p title="my cloud" class="m-0"><%=elem.name%></p>
-                </div>
-                <% })%>
+            <h6 class="mb-3">Folders</h6>
+            <div class="folderWrapper row row-cols-6 mb-5">
+              <%folders.forEach(function(elem){%>
+              <div
+                data-bs-folderId="<%=elem._id%>"
+                class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded"
+              >
+                <i class="ri-folder-5-fill"></i>
+                <p title="my cloud" class="m-0"><%=elem.name%></p>
               </div>
+              <% })%>
+            </div>
             <% }else{ %>
-              <h6>No Folder Exists</h6>
-              <div class="folderWrapper">
-
-              </div>
+            <h6>No Folder Exists</h6>
+            <div class="folderWrapper"></div>
             <% } %>
           </div>
           <%if(files.length>=1){%>
@@ -362,8 +368,9 @@
             <!-- <%=elem.filename.split("%20")[0]%> -->
             <%let type = elem.filename.split("*")[1].split(".")[1]%>
             <div
-              class="fileWrapper card mb-3 bg-transparent"
+              class="fileDiv card mb-3 bg-transparent"
               style="max-width: 18rem"
+              data-bs-fileId="<%=elem.filename%>"
             >
               <div
                 class="fileIconCtn card-body d-flex align-items-center justify-content-center"
@@ -395,12 +402,14 @@
                 <i class="ri-file-music-fill"></i>
                 <% }%>
                 <small class="m-0"><%=elem.filename.split("*")[1]%></small>
-                <a href="/share/<%=elem.filename%>">share</a>
+                <!-- <a href="/share/<%=elem.filename%>">share</a> -->
               </div>
             </div>
             <% })%>
           </div>
-          <%}else{%> <%}%>
+          <%} else{ %>
+          <div class="fileWrapper"></div>
+          <% } %>
         </div>
       </div>
       <!-- bootstrap modal -->
@@ -454,6 +463,118 @@
                   <button type="submit" class="btn btn-primary">Create</button>
                 </div>
               </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- another bootstrap model for sharing files and folders -->
+      <div
+        class="modal fade"
+        id="shareModal"
+        tabindex="-1"
+        aria-labelledby="shareModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="shareModalLabel">Share</h1>
+              <div>
+                <i class="ri-question-line"></i>
+                <i class="ri-settings-3-line"></i>
+              </div>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="mb-3">
+                  <input
+                    placeholder="Add People"
+                    type="text"
+                    class="form-control"
+                    id="recipient-name"
+                  />
+                </div>
+              </form>
+              <div>
+                <p class="text-secondary fw-semibold">People with access</p>
+                <div class="AccessEmailPeopleDiv">
+                  <div
+                    class="d-flex justify-content-between align-items-center mb-3"
+                  >
+                    <div class="d-flex align-items-center">
+                      <div class="profile2">
+                        <span> A </span>
+                      </div>
+                      <div class="ms-2">
+                        <p
+                          class="m-0 text-dark fw-semibold"
+                          style="line-height: 12px; font-size: 0.9rem"
+                        >
+                          Ashutosh Pandey (You)
+                        </p>
+                        <small class="m-0 text-secondary"
+                          >ashutoshpandeyy69@gmail.com</small
+                        >
+                      </div>
+                    </div>
+                    <p class="m-0 fw-semibold text-secondary">Owner</p>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <p class="text-secondary fw-semibold">General access</p>
+                <div
+                  class="d-flex justify-content-between align-items-center mb-3"
+                >
+                  <div class="d-flex align-items-center">
+                    <div class="AccessIconLock">
+                      <span>
+                        <i class="ri-lock-2-line"></i>
+                      </span>
+                    </div>
+                    <div class="ms-2">
+                      <p
+                        class="dropdown-toggle m-0 text-dark fw-semibold"
+                        style="line-height: 12px; font-size: 0.9rem"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Ashutosh Pandey (You)
+                      </p>
+                      <div class="dropdown-center">
+                        <ul class="dropdown-menu shadow border-0 shareRole">
+                          <li>
+                            <a class="dropdown-item public"
+                              ><i class="ri-folder-add-line me-2"></i> Public
+                            </a>
+                          </li>
+
+                          <li>
+                            <a class="dropdown-item private"
+                              ><i class="ri-file-upload-line me-2"></i>Private
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <small class="m-0 text-secondary"
+                        >Only people with access can open with the link</small
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button
+                type="button"
+                class="copyLink btn btn-outline-primary border-dark"
+              >
+                <i class="ri-link"></i> Copy Link
+              </button>
+              <button type="button" class="btn btn-primary">
+                Send message
+              </button>
             </div>
           </div>
         </div>

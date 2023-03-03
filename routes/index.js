@@ -16,7 +16,7 @@ const path = require("path");
 const bcrypt = require("bcrypt");
 const shaareModel = require("../models/shareFile");
 const folderModel = require("../models/folderModel");
-
+const fileModel = require("../models/fileSchema");
 passport.use(new localStrategy(usermodel.authenticate()));
 
 //making connection to gridfs stream
@@ -57,8 +57,17 @@ const upload = multer({ storage });
 
 /* GET home page. */
 
-router.post("/upload", upload.single("file"), (req, res) => {
-  // res.json({ file: req.file });
+router.post("/upload", upload.single("file"), async (req, res) => {
+  let urlArray = req.headers.referer.split("/");
+  let parentId = urlArray[urlArray.length - 1];
+
+  let file = await fileModel.create({
+    parent: parentId,
+    filename: req.file.filename,
+    fileId: req.file.id,
+    user: req.session.passport.user._id,
+  });
+
   res.redirect(req.headers.referer);
 });
 
@@ -137,29 +146,63 @@ router.get("/dashboard", isLoggedIn, (req, res) => {
   res.redirect(`/dashboard/root`);
 });
 
-router.get("/dashboard/:id", isLoggedIn, async (req, res) => {
-  let folders = await folderModel.find({parent:req.params.id});
-  gfs.files.find().toArray(function (err, files) {
-    if (err) {
-      res.json(err);
-    }
+//function to find a folders path upto the root folder
 
-    res.render("dss", { folders, files });
+async function getFolderPath(id) {
+  let currentFolder,
+    path = [];
+  if (id !== "root") {
+    currentFolder = await folderModel.findOne({ _id: id });
+    path.push({ name: currentFolder.name, id: currentFolder._id });
+
+    while (currentFolder.parent !== "root") {
+      currentFolder = await folderModel.findOne({ _id: currentFolder.parent });
+      if (currentFolder) {
+        // path = `${currentFolder.name}>${path}`;
+        path.unshift({ name: currentFolder.name, id: currentFolder._id });
+      }
+    }
+  } else {
+    path = null;
+  }
+
+  return path;
+}
+
+router.get("/dashboard/:id", isLoggedIn, async (req, res) => {
+  let folders = await folderModel.find({
+    parent: req.params.id,
+    user: req.session.passport.user._id,
   });
+  // gfs.files
+  //   .find({
+  //     contentType: "image/jpeg",
+  //   })
+  //   .toArray(function (err, files) {
+  //     if (err) {
+  //       res.json(err);
+  //     }
+
+  //   });
+  let files = await fileModel.find({
+    parent: req.params.id,
+    user: req.session.passport.user._id,
+  });
+  let path = await getFolderPath(req.params.id);
+  console.log(path);
+  res.render("dss", { folders, files, path });
 });
 router.post("/createfolder", isLoggedIn, async (req, res) => {
   let urlArray = req.headers.referer.split("/");
   let parentId = urlArray[urlArray.length - 1];
-
- 
 
   let folder = await folderModel.create({
     name: req.body.foldername,
     parent: parentId,
     user: req.session.passport.user._id,
   });
-  
-  res.redirect("/dashboard");
+
+  res.redirect(req.headers.referer);
 });
 router.get("/folder/:id", async (req, res) => {
   let folder = await folderModel.findById(req.params.id);
