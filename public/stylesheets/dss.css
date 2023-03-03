@@ -112,7 +112,7 @@ html,body{
 .progress-bar{
     background-color: var(--themeBlue);
 }
-.profile{
+.profile,.profile2,.AccessIconLock{
     width: 30px;
     height: 30px;
     background-color: var(--themeBlue);
@@ -228,6 +228,34 @@ html,body{
     overflow: hidden;
   display: inline-block;
   text-overflow: ellipsis;
+}
+
+/* modal styling for sharing */
+.profile2{
+    width: 35px;
+    height: 35px;
+}
+.AccessEmailPeopleDiv{
+    max-height: 220px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.AccessEmailPeopleDiv::-webkit-scrollbar-thumb{
+    background: #187eea76;
+}
+.AccessEmailPeopleDiv::-webkit-scrollbar{
+    width: 5px;
+}
+.AccessEmailPeopleDiv::-webkit-scrollbar-thumb:hover{
+    background: #187eeaec;
+}
+.AccessIconLock{
+    background-color: #0000002b;
+    color: black;
+}
+.copyLink:hover{
+    background: #00000013;
+    color: var(--themeBlue);
 }
 /* .contentLeft{
     flex: 3;
