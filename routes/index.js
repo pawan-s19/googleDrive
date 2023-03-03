@@ -65,8 +65,10 @@ router.post("/upload", upload.single("file"), async (req, res) => {
     parent: parentId,
     filename: req.file.filename,
     fileId: req.file.id,
+    user: req.session.passport.user._id,
   });
-  
+
+  res.redirect(req.headers.referer);
 });
 
 router.get("/all/file", (req, res) => {});
@@ -144,8 +146,34 @@ router.get("/dashboard", isLoggedIn, (req, res) => {
   res.redirect(`/dashboard/root`);
 });
 
+//function to find a folders path upto the root folder
+
+async function getFolderPath(id) {
+  let currentFolder,
+    path = [];
+  if (id !== "root") {
+    currentFolder = await folderModel.findOne({ _id: id });
+    path.push({ name: currentFolder.name, id: currentFolder._id });
+
+    while (currentFolder.parent !== "root") {
+      currentFolder = await folderModel.findOne({ _id: currentFolder.parent });
+      if (currentFolder) {
+        // path = `${currentFolder.name}>${path}`;
+        path.unshift({ name: currentFolder.name, id: currentFolder._id });
+      }
+    }
+  } else {
+    path = null;
+  }
+
+  return path;
+}
+
 router.get("/dashboard/:id", isLoggedIn, async (req, res) => {
-  let folders = await folderModel.find({ parent: req.params.id });
+  let folders = await folderModel.find({
+    parent: req.params.id,
+    user: req.session.passport.user._id,
+  });
   // gfs.files
   //   .find({
   //     contentType: "image/jpeg",
@@ -156,9 +184,13 @@ router.get("/dashboard/:id", isLoggedIn, async (req, res) => {
   //     }
 
   //   });
-  let files = await fileModel.find({ parent: req.params.id });
-
-  res.render("dss", { folders, files });
+  let files = await fileModel.find({
+    parent: req.params.id,
+    user: req.session.passport.user._id,
+  });
+  let path = await getFolderPath(req.params.id);
+  console.log(path);
+  res.render("dss", { folders, files, path });
 });
 router.post("/createfolder", isLoggedIn, async (req, res) => {
   let urlArray = req.headers.referer.split("/");
@@ -170,7 +202,7 @@ router.post("/createfolder", isLoggedIn, async (req, res) => {
     user: req.session.passport.user._id,
   });
 
-  res.redirect("/dashboard");
+  res.redirect(req.headers.referer);
 });
 router.get("/folder/:id", async (req, res) => {
   let folder = await folderModel.findById(req.params.id);
