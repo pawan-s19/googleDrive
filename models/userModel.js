@@ -14,7 +14,14 @@ var userSchema=mongoose.Schema({
     type:String,
     unique: true,
     required: true
-  }
+  },
+  starredFiles:[{
+    type: String
+  }],
+  starredFolders:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'folderModel'
+  }]
 })
 
 userSchema.plugin(plm);
