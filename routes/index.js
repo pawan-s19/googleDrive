@@ -16,11 +16,14 @@ const path = require("path");
 const bcrypt = require("bcrypt");
 const shaareModel = require("../models/shareFile");
 const folderModel = require("../models/folderModel");
+
 passport.use(new localStrategy(usermodel.authenticate()));
 
 //making connection to gridfs stream
 let gfs, gridFsBucket;
-let conn = mongoose.createConnection("mongodb+srv://Sushant_8083:Sushant%402003@cluster0.eqii0la.mongodb.net/?retryWrites=true&w=majority");
+let conn = mongoose.createConnection(
+  "mongodb+srv://Sushant_8083:Sushant%402003@cluster0.eqii0la.mongodb.net/?retryWrites=true&w=majority"
+);
 conn.once("open", function () {
   gridFsBucket = new mongoose.mongo.GridFSBucket(conn.db, {
     bucketName: "uploads",
@@ -60,13 +63,6 @@ router.post("/upload", upload.single("file"), (req, res) => {
 });
 
 router.get("/all/file", (req, res) => {});
-router.post("/createfolder", async (req, res) => {
-  let folder = await folderModel.create({ name: req.body.foldername });
-  folder.parent.push(req.body.parentId);
-  await folder.save();
-  res.redirect("/dashboard");
-  console.log(req.body.parentId);
-});
 
 router.get("/", function (req, res) {
   try {
@@ -85,6 +81,14 @@ router.get("/signup", function (req, res) {
 router.get("/loginPage", function (req, res) {
   res.render("login");
 });
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/dashboard",
+    failureRedirect: "/",
+  })
+);
+
 router.post("/register", async function (req, res, next) {
   try {
     if (!req.body.username || !req.body.email || !req.body.password) {
@@ -111,29 +115,30 @@ router.post("/register", async function (req, res, next) {
       });
       return res.redirect("/signup");
     } else {
-      res.render("verifyEmail", { SigningUser: req.body });
-      // var newUser = new usermodel({
-      // username:req.body.username,
-      // email: req.body.email
-      // })
-      // usermodel.register(newUser,req.body.password)
-      // .then(function(registereduser){
-      //   passport.authenticate('local')(req,res,function(){
-      //     res.redirect('/profile')
-      //   })
-      // });
+      // res.render("verifyEmail", { SigningUser: req.body });
+      var newUser = new usermodel({
+        username: req.body.username,
+        email: req.body.email,
+      });
+      usermodel
+        .register(newUser, req.body.password)
+        .then(function (registereduser) {
+          passport.authenticate("local")(req, res, function () {
+            res.redirect("/dashboard");
+          });
+        });
     }
   } catch (error) {
     res.redirect("/signup");
   }
 });
 
-router.get("/dashboard", (req, res) => {
+router.get("/dashboard", isLoggedIn, (req, res) => {
   res.redirect(`/dashboard/root`);
 });
 
-router.get("/dashboard/:id", async (req, res) => {
-  let folders = await folderModel.find();
+router.get("/dashboard/:id", isLoggedIn, async (req, res) => {
+  let folders = await folderModel.find({parent:req.params.id});
   gfs.files.find().toArray(function (err, files) {
     if (err) {
       res.json(err);
@@ -142,7 +147,20 @@ router.get("/dashboard/:id", async (req, res) => {
     res.render("dss", { folders, files });
   });
 });
+router.post("/createfolder", isLoggedIn, async (req, res) => {
+  let urlArray = req.headers.referer.split("/");
+  let parentId = urlArray[urlArray.length - 1];
 
+ 
+
+  let folder = await folderModel.create({
+    name: req.body.foldername,
+    parent: parentId,
+    user: req.session.passport.user._id,
+  });
+  
+  res.redirect("/dashboard");
+});
 router.get("/folder/:id", async (req, res) => {
   let folder = await folderModel.findById(req.params.id);
   res.render("folder", { folder });
@@ -226,14 +244,6 @@ router.get("/check", async function (req, res) {
     res.redirect("/profile");
   }
 });
-
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/profile",
-    failureRedirect: "/",
-  })
-);
 
 router.get("/logout", function (req, res, next) {
   req.logout(function (err) {
