@@ -20,7 +20,7 @@ passport.use(new localStrategy(usermodel.authenticate()));
 
 //making connection to gridfs stream
 let gfs, gridFsBucket;
-let conn = mongoose.createConnection("mongodb://localhost:27017/gridfs");
+let conn = mongoose.createConnection("mongodb+srv://Sushant_8083:Sushant%402003@cluster0.eqii0la.mongodb.net/?retryWrites=true&w=majority");
 conn.once("open", function () {
   gridFsBucket = new mongoose.mongo.GridFSBucket(conn.db, {
     bucketName: "uploads",

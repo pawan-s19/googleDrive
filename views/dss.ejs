@@ -334,22 +334,27 @@
           <!-- <div class="contentRight shadow-sm"></div> -->
         </div>
         <div class="container-fluid px-4 py-3 folderCtn">
-          <%if(folders.length > 1){%>
           <div>
-            <h6 class="mb-3">Folders</h6>
-            <div class="folderWrapper row row-cols-6 mb-5">
-              <%folders.forEach(function(elem){%> <%if(elem.isRoot){%>
-              <%}else{%>
-              <div
-                class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded"
-              >
-                <i class="ri-folder-5-fill"></i>
-                <p title="my cloud" class="m-0"><%=elem.name%></p>
+            <% if(folders.length > 0){ %>
+              <h6 class="mb-3">Folders</h6>
+              <div class="folderWrapper row row-cols-6 mb-5">
+                <%folders.forEach(function(elem){%> 
+                <div
+                  class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded"
+                >
+                  <i class="ri-folder-5-fill"></i>
+                  <p title="my cloud" class="m-0"><%=elem.name%></p>
+                </div>
+                <% })%>
               </div>
-              <%}%> <% })%>
-            </div>
+            <% }else{ %>
+              <h6>No Folder Exists</h6>
+              <div class="folderWrapper">
+
+              </div>
+            <% } %>
           </div>
-          <%}else{%> <%}%> <%if(files.length>=1){%>
+          <%if(files.length>=1){%>
           <h6 class="mb-3">Files</h6>
           <div class="fileWrapper row row-cols-5">
             <%files.forEach(function(elem){%>
