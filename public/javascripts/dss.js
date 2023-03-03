@@ -1,6 +1,7 @@
 let gridViewBtn = document.querySelector("#gridView");
 let listViewBtn = document.querySelector("#listView");
 let allFolder = document.querySelectorAll(".folderDiv");
+let allFile = document.querySelectorAll(".fileDiv");
 let optionsWrapper = document.querySelector(".optionsWrapper");
 
 gridViewBtn.addEventListener("click", function () {
@@ -29,6 +30,9 @@ document.querySelector(".folderWrapper").addEventListener("click", (e) => {
     allFolder.forEach((folderDiv) => {
       folderDiv.classList.remove("folderDivSelected");
     });
+    allFile.forEach((fileDiv) => {
+      fileDiv.classList.remove("folderDivSelected");
+    });
     e.target.classList.add("folderDivSelected");
     optionsWrapper.style.display = "flex";
   } else {
@@ -39,7 +43,26 @@ document.querySelector(".folderWrapper").addEventListener("click", (e) => {
   }
 });
 
-allFolder.forEach((folder) => {
+document.querySelector(".fileWrapper").addEventListener("click", (e) => {
+  // console.log(e.target.getElementsByTagName('p')[0].innerHTML + " is clicked")
+  if (e.target.classList.contains("fileDiv")) {
+    allFile.forEach((fileDiv) => {
+      fileDiv.classList.remove("folderDivSelected");
+    });
+    allFolder.forEach((folderDiv) => {
+      folderDiv.classList.remove("folderDivSelected");
+    });
+    e.target.classList.add("folderDivSelected");
+    optionsWrapper.style.display = "flex";
+  } else {
+    allFile.forEach((fileDiv) => {
+      fileDiv.classList.remove("folderDivSelected");
+    });
+    optionsWrapper.style.display = "none";
+  }
+});
+
+allFile.forEach((folder) => {
   folder.addEventListener("click", (e) => {
     console.log(e.target.classList);
   });
@@ -49,11 +72,15 @@ let collapseMenu = document.querySelector("#collapseExample");
 window.addEventListener("click", (e) => {
   if (
     !e.target.classList.contains("folderDiv") &&
-    !e.target.classList.contains("optionIcons")
+    !e.target.classList.contains("optionIcons") &&
+    !e.target.classList.contains("fileDiv") 
   ) {
     optionsWrapper.style.display = "none";
     allFolder.forEach((folderDiv) => {
       folderDiv.classList.remove("folderDivSelected");
+    });
+    allFile.forEach((fileDiv) => {
+      fileDiv.classList.remove("folderDivSelected");
     });
   }
   if (collapseMenu.classList.contains("show")) {
