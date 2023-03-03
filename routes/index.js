@@ -16,7 +16,7 @@ const path = require("path");
 const bcrypt = require("bcrypt");
 const shaareModel = require("../models/shareFile");
 const folderModel = require("../models/folderModel");
-
+const fileModel = require("../models/fileSchema");
 passport.use(new localStrategy(usermodel.authenticate()));
 
 //making connection to gridfs stream
@@ -57,9 +57,16 @@ const upload = multer({ storage });
 
 /* GET home page. */
 
-router.post("/upload", upload.single("file"), (req, res) => {
-  // res.json({ file: req.file });
-  res.redirect(req.headers.referer);
+router.post("/upload", upload.single("file"), async (req, res) => {
+  let urlArray = req.headers.referer.split("/");
+  let parentId = urlArray[urlArray.length - 1];
+
+  let file = await fileModel.create({
+    parent: parentId,
+    filename: req.file.filename,
+    fileId: req.file.id,
+  });
+  
 });
 
 router.get("/all/file", (req, res) => {});
@@ -138,27 +145,31 @@ router.get("/dashboard", isLoggedIn, (req, res) => {
 });
 
 router.get("/dashboard/:id", isLoggedIn, async (req, res) => {
-  let folders = await folderModel.find({parent:req.params.id});
-  gfs.files.find().toArray(function (err, files) {
-    if (err) {
-      res.json(err);
-    }
+  let folders = await folderModel.find({ parent: req.params.id });
+  // gfs.files
+  //   .find({
+  //     contentType: "image/jpeg",
+  //   })
+  //   .toArray(function (err, files) {
+  //     if (err) {
+  //       res.json(err);
+  //     }
 
-    res.render("dss", { folders, files });
-  });
+  //   });
+  let files = await fileModel.find({ parent: req.params.id });
+
+  res.render("dss", { folders, files });
 });
 router.post("/createfolder", isLoggedIn, async (req, res) => {
   let urlArray = req.headers.referer.split("/");
   let parentId = urlArray[urlArray.length - 1];
-
- 
 
   let folder = await folderModel.create({
     name: req.body.foldername,
     parent: parentId,
     user: req.session.passport.user._id,
   });
-  
+
   res.redirect("/dashboard");
 });
 router.get("/folder/:id", async (req, res) => {
