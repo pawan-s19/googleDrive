@@ -334,27 +334,33 @@
           <!-- <div class="contentRight shadow-sm"></div> -->
         </div>
         <div class="container-fluid px-4 py-3 folderCtn">
-          <%if(folders.length > 1){%>
           <div>
-            <h6 class="mb-3">Folders</h6>
-            <div class="folderWrapper row row-cols-6 mb-5">
-              <%folders.forEach(function(elem){%> <%if(elem.isRoot){%>
-              <%}else{%>
-              <div
-                class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded"
-              >
-                <i class="ri-folder-5-fill"></i>
-                <p title="my cloud" class="m-0"><%=elem.name%></p>
+            <% if(folders.length > 0){ %>
+              <h6 class="mb-3">Folders</h6>
+              <div class="folderWrapper row row-cols-6 mb-5">
+                <%folders.forEach(function(elem){%> 
+                <div
+                  data-bs-folderId="<%=elem._id%>"
+                  class="folderDiv d-flex align-items-center justify-content-start gap-2 py-2 px-2 rounded"
+                >
+                  <i class="ri-folder-5-fill"></i>
+                  <p title="my cloud" class="m-0"><%=elem.name%></p>
+                </div>
+                <% })%>
               </div>
-              <%}%> <% })%>
-            </div>
+            <% }else{ %>
+              <h6>No Folder Exists</h6>
+              <div class="folderWrapper">
+
+              </div>
+            <% } %>
           </div>
-          <%}else{%> <%}%>
+          <%if(files.length>=1){%>
           <h6 class="mb-3">Files</h6>
           <div class="fileWrapper row row-cols-5">
             <%files.forEach(function(elem){%>
             <!-- <%=elem.filename.split("%20")[0]%> -->
-            <%let type = elem.filename.split("*")[0].split(".")[1]%>
+            <%let type = elem.filename.split("*")[1].split(".")[1]%>
             <div
               class="fileWrapper card mb-3 bg-transparent"
               style="max-width: 18rem"
@@ -372,6 +378,8 @@
                 <i class="ri-file-word-fill"></i>
                 <% } else if(type === 'pptx'){ %>
                 <i class="ri-file-ppt-fill"></i>
+                <% } else if(type === 'mp3'){ %>
+                <i class="ri-file-music-fill"></i>
                 <% } %>
               </div>
               <div class="fileFooter p-1 d-flex align-items-end gap-1">
@@ -383,12 +391,16 @@
                 <i class="ri-file-pdf-fill"></i>
                 <% } else if(type === 'docx'){ %>
                 <i class="ri-file-word-fill"></i>
-                <% } %>
-                <small class="m-0"><%=elem.filename.split("*")[0]%></small>
+                <% } else if(type === 'mp3'){ %>
+                <i class="ri-file-music-fill"></i>
+                <% }%>
+                <small class="m-0"><%=elem.filename.split("*")[1]%></small>
+                <a href="/share/<%=elem.filename%>">share</a>
               </div>
             </div>
             <% })%>
           </div>
+          <%}else{%> <%}%>
         </div>
       </div>
       <!-- bootstrap modal -->

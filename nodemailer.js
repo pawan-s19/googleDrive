@@ -28,8 +28,8 @@ async function mailer({Email, OTP}) {
       },
     });
     const details = {
-      from: " sushant onkar <tanishqjain2114@gmail.com>",
-      // from: " sushant onkar <onkarsushant05@gmail.com>",
+      // from: " sushant onkar <tanishqjain2114@gmail.com>",
+      from: " sushant onkar <onkarsushant05@gmail.com>",
       to: Email,
       subject: "Verify Your Email",
       text: "Enter this OTP to verify your email",

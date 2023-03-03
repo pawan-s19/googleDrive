@@ -4,13 +4,10 @@ var mongoose = require("mongoose");
 var folderSchema = new mongoose.Schema(
   {
     name: String,
-    parent: [{ type: mongoose.Schema.Types.ObjectId, ref: "folderModel" }],
-    folders: [{ type: mongoose.Schema.Types.ObjectId }],
+    parent: {type:String},
+    folders: [{ type: mongoose.Schema.Types.ObjectId,ref:"folderModel" }],
     files: [{ type: String }],
-    isRoot: {
-      type: Boolean,
-      default: false,
-    },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
   },
   { timestamps: true }
 );
