@@ -279,7 +279,6 @@ html,body{
     }
 }
 
-
 @media only screen and (max-width: 721px){
     .folderDiv i{
         font-size:16vw;
@@ -304,6 +303,10 @@ html,body{
     }
     .folderWrapper{
         gap: 1rem !important;
+    }
+    .fi
+    .fileDiv{
+        width: 20vmax !important;
     }
 }
 

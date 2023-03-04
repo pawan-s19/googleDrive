@@ -76,7 +76,7 @@ router.get("/all/file", (req, res) => {});
 router.get("/", function (req, res) {
   try {
     if (req.isAuthenticated() || req.user) {
-      return res.redirect("/profile");
+      return res.redirect("/dashboard");
     } else {
       res.render("home");
     }
@@ -353,6 +353,55 @@ router.post("/share/:filename", async (req, res) => {
     }
   );
 });
+
+// add Files or Folders to starred
+router.get('/star/:id',async (req, res) =>{
+  try {
+    let ID = req.params.id;
+    let LoggedInUser = await usermodel.findOne({_id: req.session.passport.user._id});
+
+    const isValidId = mongoose.isValidObjectId(ID);
+
+    if(isValidId){
+      // Then its a folder
+      if(LoggedInUser.starredFolders.indexOf(ID) === -1){
+        // The Folder is Not Starred
+        LoggedInUser.starredFolders.unshift(ID);
+      }else{
+        // The Folder is Already Starred
+        LoggedInUser.starredFolders.splice(ID,1);
+      }
+      return res.redirect(req.headers.referer);
+    }else{
+      // File OR Garbage Id
+      gfs.files.findOne({ filename: ID }, (err, file) => {
+        if(file){
+          // Its a file surely
+          if(LoggedInUser.starredFiles.indexOf(ID) === -1){
+            // The File is Not Starred
+            LoggedInUser.starredFiles.unshift(ID);
+          }else{
+            // The File is Already Starred
+            LoggedInUser.starredFiles.splice(ID,1);
+          }
+          return res.redirect(req.headers.referer);
+        }else{
+          // garbage id 
+          new notifier.WindowsBalloon().notify({
+            title: "",
+            message: "Tera music m*******od",
+          });
+          return res.redirect(req.headers.referer);
+        }
+      })
+    }
+    // res.send(ID);
+    // res.redirect(req.headers.referer);
+    console.log(ID);
+  } catch (error) {
+    res.render("error", { message: "internal server error", error });
+  }
+})
 
 router
   .route("/sharefile/:id")
