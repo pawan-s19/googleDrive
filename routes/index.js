@@ -425,25 +425,6 @@ router
       }
     }
   });
-
-  router.get("/delete/:id", async (req, res) => {
-    gfs.files.remove({filename : req.params.id , root : 'uploads'}, async(err , gridStore)=>{
-      if(err){
-        return res.status(404).json({err:err})
-      }
-     await fileModel.deleteOne({filename : req.params.id})
-      return res.redirect(req.headers.referer)
-    })
-
-  });
-
-  router.get("/deletefolder/:id", async (req, res) => {
-    await folderModel.findByIdAndDelete({_id : req.params.id})
-    res.redirect(req.headers.referer)
-  });
-  
-
-
 function isLoggedIn(req, res, next) {
   // req.user ? next() : res.sendStatus(401);
   if (req.isAuthenticated() || req.user) {

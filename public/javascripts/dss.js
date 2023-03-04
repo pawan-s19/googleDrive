@@ -37,8 +37,6 @@ document.querySelector(".folderWrapper").addEventListener("click", (e) => {
     });
     e.target.classList.add("folderDivSelected");
     optionsWrapper.style.display = "flex";
-    document.querySelector(".delete")
-    .setAttribute('href',`http://localhost:3000/deletefolder/${GLOBAL_ID}`);
   } else {
     allFolder.forEach((folderDiv) => {
       folderDiv.classList.remove("folderDivSelected");
@@ -60,8 +58,6 @@ document.querySelector(".fileWrapper").addEventListener("click", (e) => {
     });
     e.target.classList.add("folderDivSelected");
     optionsWrapper.style.display = "flex";
-    document.querySelector(".delete")
-    .setAttribute('href',`http://localhost:3000/delete/${GLOBAL_ID}`);
   } else {
     allFile.forEach((fileDiv) => {
       fileDiv.classList.remove("folderDivSelected");
@@ -146,8 +142,3 @@ document.querySelector(".shareRole").addEventListener("click", function (e) {
   console.log(e.target.classList);
   console.log(GLOBAL_ID);
 });
-
-
-
-
-
