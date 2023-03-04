@@ -4,6 +4,11 @@ let allFolder = document.querySelectorAll(".folderDiv");
 let allFile = document.querySelectorAll(".fileDiv");
 let optionsWrapper = document.querySelector(".optionsWrapper");
 let GLOBAL_ID;
+let shareUrl;
+let copyLinkButton = document.querySelector(".copyLink");
+let sharePasswordDiv = document.querySelector(".share-password");
+let sharePasswordForm = document.querySelector(".share-password form");
+let isShareRolePublic = true;
 gridViewBtn.addEventListener("click", function () {
   this.classList.add("selectedIcon");
   listViewBtn.classList.remove("selectedIcon");
@@ -138,7 +143,36 @@ document.querySelector(".folderWrapper").addEventListener("dblclick", (e) => {
   }
 });
 
-document.querySelector(".shareRole").addEventListener("click", function (e) {
-  console.log(e.target.classList);
-  console.log(GLOBAL_ID);
+document
+  .querySelector(".shareRole")
+  .addEventListener("click", async function (e) {
+    console.log(e.target.classList);
+    console.log(GLOBAL_ID);
+    if (e.target.classList[1] == "public") {
+      isShareRolePublic = true;
+      sharePasswordDiv.style.display = "none";
+      copyLinkButton.style.display = "block";
+    } else {
+      isShareRolePublic = false;
+      sharePasswordDiv.style.display = "block";
+      copyLinkButton.style.display = "none";
+    }
+  });
+
+sharePasswordForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  let { data } = await axios.post(`/share/${GLOBAL_ID}`, {
+    password: e.target[0].value,
+  });
+  shareUrl = data.url;
+  copyLinkButton.style.display = "block";
+});
+copyLinkButton.addEventListener("click", async (e) => {
+  if (isShareRolePublic) {
+    let { data } = await axios.post(`/share/${GLOBAL_ID}`);
+    shareUrl = data.url;
+  }
+  console.log(shareUrl);
+  if (shareUrl) await navigator.clipboard.writeText(shareUrl);
 });
