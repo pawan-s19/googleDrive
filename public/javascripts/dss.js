@@ -37,6 +37,7 @@ document.querySelector(".folderWrapper").addEventListener("click", (e) => {
     });
     e.target.classList.add("folderDivSelected");
     optionsWrapper.style.display = "flex";
+    // document.querySelector('.addToStar').setAttribute(`href','http://localhost:3000/star/${GLOBAL_ID}`);
   } else {
     allFolder.forEach((folderDiv) => {
       folderDiv.classList.remove("folderDivSelected");
@@ -58,6 +59,7 @@ document.querySelector(".fileWrapper").addEventListener("click", (e) => {
     });
     e.target.classList.add("folderDivSelected");
     optionsWrapper.style.display = "flex";
+    // document.querySelector('.addToStar').setAttribute(`href','http://localhost:3000/star/${GLOBAL_ID}`);
   } else {
     allFile.forEach((fileDiv) => {
       fileDiv.classList.remove("folderDivSelected");
@@ -72,7 +74,6 @@ allFile.forEach((folder) => {
   });
 });
 
-let collapseMenu = document.querySelector("#collapseExample");
 window.addEventListener("click", (e) => {
   if (
     !e.target.classList.contains("folderDiv") &&
@@ -86,9 +87,6 @@ window.addEventListener("click", (e) => {
     allFile.forEach((fileDiv) => {
       fileDiv.classList.remove("folderDivSelected");
     });
-  }
-  if (collapseMenu.classList.contains("show")) {
-    collapseMenu.classList.remove("show");
   }
 });
 
@@ -121,14 +119,6 @@ exampleModal.addEventListener("show.bs.modal", function (event) {
   }
 });
 
-// previous and forward button
-document.querySelector(".previousPage").addEventListener("click", () => {
-  history.back();
-});
-document.querySelector(".forwardPage").addEventListener("click", () => {
-  history.forward();
-});
-
 document.querySelector(".folderWrapper").addEventListener("dblclick", (e) => {
   // console.log(e.target.getElementsByTagName('p')[0].innerHTML + " is clicked")
   if (e.target.classList.contains("folderDiv")) {
@@ -142,3 +132,11 @@ document.querySelector(".shareRole").addEventListener("click", function (e) {
   console.log(e.target.classList);
   console.log(GLOBAL_ID);
 });
+
+// add ID to star option
+let starFnc = document.querySelector('.addToStar');
+
+starFnc.addEventListener('click',()=>{
+  window.location.href =`http://localhost:3000/star/${GLOBAL_ID}`;
+});
+

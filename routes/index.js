@@ -76,7 +76,7 @@ router.get("/all/file", (req, res) => {});
 router.get("/", function (req, res) {
   try {
     if (req.isAuthenticated() || req.user) {
-      return res.redirect("/profile");
+      return res.redirect("/dashboard");
     } else {
       res.render("home");
     }
@@ -372,23 +372,32 @@ router.get('/star/:id',async (req, res) =>{
         // The Folder is Already Starred
         LoggedInUser.starredFolders.splice(ID,1);
       }
+      return res.redirect(req.headers.referer);
     }else{
       // File OR Garbage Id
-      let file = await gfs.files.findOne({ filename: ID })
-      if(file){
-        // Its a file surely
-        if(LoggedInUser.starredFiles.indexOf(ID) === -1){
-          // The File is Not Starred
-          LoggedInUser.starredFiles.unshift(ID);
+      gfs.files.findOne({ filename: ID }, (err, file) => {
+        if(file){
+          // Its a file surely
+          if(LoggedInUser.starredFiles.indexOf(ID) === -1){
+            // The File is Not Starred
+            LoggedInUser.starredFiles.unshift(ID);
+          }else{
+            // The File is Already Starred
+            LoggedInUser.starredFiles.splice(ID,1);
+          }
+          return res.redirect(req.headers.referer);
         }else{
-          // The File is Already Starred
-          LoggedInUser.starredFiles.splice(ID,1);
+          // garbage id 
+          new notifier.WindowsBalloon().notify({
+            title: "",
+            message: "Tera music m*******od",
+          });
+          return res.redirect(req.headers.referer);
         }
-      }else{
-        // garbage id 
-      }
+      })
     }
-    res.redirect(req.headers.referer);
+    // res.send(ID);
+    // res.redirect(req.headers.referer);
     console.log(ID);
   } catch (error) {
     res.render("error", { message: "internal server error", error });
