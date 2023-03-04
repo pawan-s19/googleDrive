@@ -177,10 +177,10 @@
           <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
               <div class="content_navLeft">
-                <div class="dropdown-center">
+                <div class="pathCtn dropdown-center">
                   <% if(!path){ %>
                       <button
-                      class="btn bg-none border-0 dropdown-toggle"
+                      class="folderPath p-1 rounded-1 btn bg-none border-0 dropdown-toggle"
                       type="button"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
@@ -189,14 +189,18 @@
                     </button>
                   <% } else{ %>
                     <div class="d-flex align-items-center ms-2">
-                      <a class="text-dark text-decoration-none" href="/dashboard">My Drive</a>>
+                      <a class="folderPath p-1 rounded-1 text-dark text-decoration-none" href="/dashboard">My Drive</a>
+                      <i class="text-secondary ri-arrow-right-s-line"></i>
                       <% path.forEach((e,i) => { %>
                         <% if(path.length-1 !== i){ %>
-                          <a class="text-dark text-decoration-none" href="/dashboard/<%=e.id%>"><%=e.name%>></a>
+                          <a class="folderPath p-1 rounded-1 text-dark text-decoration-none" href="/dashboard/<%=e.id%>">
+                            <%=e.name%>
+                            <i class="text-secondary ri-arrow-right-s-line"></i>
+                          </a>
                         <% } else{ %>
                           <div class="dropdown-center">
                             <button
-                            class="btn bg-none border-0 dropdown-toggle"
+                            class="folderPath p-1 rounded-1 bg-transparent border-0 dropdown-toggle"
                             type="button"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"

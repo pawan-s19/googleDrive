@@ -199,6 +199,11 @@ html,body{
 .folderDiv p{
     user-select: none;
     white-space: nowrap;
+    font-family: Poppins;
+    width: 16rem;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
 }
 .grid{
     width: 15rem;
@@ -259,6 +264,17 @@ html,body{
 .copyLink:hover{
     background: #00000013;
     color: var(--themeBlue);
+}
+.pathCtn{
+    max-width: 550px;
+    /* max-width: 55vw; */
+    /* max-width: 15vw; */
+}
+.folderPath{
+    white-space: nowrap;
+}
+.folderPath:hover{
+    background-color: #007bff1d !important;
 }
 /* .contentLeft{
     flex: 3;

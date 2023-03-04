@@ -130,6 +130,13 @@ document.querySelector(".folderWrapper").addEventListener("dblclick", (e) => {
     let folderId = e.target.getAttribute("data-bs-folderId");
 
     window.location.href = `http://localhost:3000/dashboard/${folderId}`;
+    let pathCtn = document.querySelector('.pathCtn');
+
+    console.log(pathCtn.offsetWidth);
+    // if(pathCtn.offsetWidth > 550){
+    //   console.log('bada ho gaya')
+    //   console.log(pathCtn.offsetWidth)
+    // }
   }
 });
 
@@ -173,4 +180,3 @@ let starFnc = document.querySelector('.addToStar');
 starFnc.addEventListener('click',()=>{
   window.location.href =`http://localhost:3000/star/${GLOBAL_ID}`;
 });
-
