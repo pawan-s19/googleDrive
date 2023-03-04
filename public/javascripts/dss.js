@@ -1,8 +1,9 @@
 let gridViewBtn = document.querySelector("#gridView");
 let listViewBtn = document.querySelector("#listView");
 let allFolder = document.querySelectorAll(".folderDiv");
+let allFile = document.querySelectorAll(".fileDiv");
 let optionsWrapper = document.querySelector(".optionsWrapper");
-
+let GLOBAL_ID;
 gridViewBtn.addEventListener("click", function () {
   this.classList.add("selectedIcon");
   listViewBtn.classList.remove("selectedIcon");
@@ -26,11 +27,17 @@ listViewBtn.addEventListener("click", function () {
 document.querySelector(".folderWrapper").addEventListener("click", (e) => {
   // console.log(e.target.getElementsByTagName('p')[0].innerHTML + " is clicked")
   if (e.target.classList.contains("folderDiv")) {
+    GLOBAL_ID = e.target.getAttribute("data-bs-folderId");
+    console.log(GLOBAL_ID);
     allFolder.forEach((folderDiv) => {
       folderDiv.classList.remove("folderDivSelected");
     });
+    allFile.forEach((fileDiv) => {
+      fileDiv.classList.remove("folderDivSelected");
+    });
     e.target.classList.add("folderDivSelected");
     optionsWrapper.style.display = "flex";
+    // document.querySelector('.addToStar').setAttribute(`href','http://localhost:3000/star/${GLOBAL_ID}`);
   } else {
     allFolder.forEach((folderDiv) => {
       folderDiv.classList.remove("folderDivSelected");
@@ -39,25 +46,47 @@ document.querySelector(".folderWrapper").addEventListener("click", (e) => {
   }
 });
 
-allFolder.forEach((folder) => {
+document.querySelector(".fileWrapper").addEventListener("click", (e) => {
+  // console.log(e.target.getElementsByTagName('p')[0].innerHTML + " is clicked")
+  if (e.target.classList.contains("fileDiv")) {
+    GLOBAL_ID = e.target.getAttribute("data-bs-fileId");
+    console.log(GLOBAL_ID);
+    allFile.forEach((fileDiv) => {
+      fileDiv.classList.remove("folderDivSelected");
+    });
+    allFolder.forEach((folderDiv) => {
+      folderDiv.classList.remove("folderDivSelected");
+    });
+    e.target.classList.add("folderDivSelected");
+    optionsWrapper.style.display = "flex";
+    // document.querySelector('.addToStar').setAttribute(`href','http://localhost:3000/star/${GLOBAL_ID}`);
+  } else {
+    allFile.forEach((fileDiv) => {
+      fileDiv.classList.remove("folderDivSelected");
+    });
+    optionsWrapper.style.display = "none";
+  }
+});
+
+allFile.forEach((folder) => {
   folder.addEventListener("click", (e) => {
     console.log(e.target.classList);
   });
 });
 
-let collapseMenu = document.querySelector("#collapseExample");
 window.addEventListener("click", (e) => {
   if (
     !e.target.classList.contains("folderDiv") &&
-    !e.target.classList.contains("optionIcons")
+    !e.target.classList.contains("optionIcons") &&
+    !e.target.classList.contains("fileDiv")
   ) {
     optionsWrapper.style.display = "none";
     allFolder.forEach((folderDiv) => {
       folderDiv.classList.remove("folderDivSelected");
     });
-  }
-  if (collapseMenu.classList.contains("show")) {
-    collapseMenu.classList.remove("show");
+    allFile.forEach((fileDiv) => {
+      fileDiv.classList.remove("folderDivSelected");
+    });
   }
 });
 
@@ -90,14 +119,6 @@ exampleModal.addEventListener("show.bs.modal", function (event) {
   }
 });
 
-// previous and forward button
-document.querySelector(".previousPage").addEventListener("click", () => {
-  history.back();
-});
-document.querySelector(".forwardPage").addEventListener("click", () => {
-  history.forward();
-});
-
 document.querySelector(".folderWrapper").addEventListener("dblclick", (e) => {
   // console.log(e.target.getElementsByTagName('p')[0].innerHTML + " is clicked")
   if (e.target.classList.contains("folderDiv")) {
@@ -106,3 +127,16 @@ document.querySelector(".folderWrapper").addEventListener("dblclick", (e) => {
     window.location.href = `http://localhost:3000/dashboard/${folderId}`;
   }
 });
+
+document.querySelector(".shareRole").addEventListener("click", function (e) {
+  console.log(e.target.classList);
+  console.log(GLOBAL_ID);
+});
+
+// add ID to star option
+let starFnc = document.querySelector('.addToStar');
+
+starFnc.addEventListener('click',()=>{
+  window.location.href =`http://localhost:3000/star/${GLOBAL_ID}`;
+});
+
