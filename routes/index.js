@@ -332,23 +332,22 @@ router.get("/file/:id", async (req, res) => {
   });
 });
 
-router.get("/share/:filename", async (req, res) => {
+router.post("/share/:filename", async (req, res) => {
   await gfs.files.findOne(
     { filename: req.params.filename },
     async (err, file) => {
       const filedata = {
-        password: "12345",
+        password: req.body.password,
         path: file._id,
-        originalname: file.filename.split("*")[0],
+        originalname: file.filename.split("*")[1],
       };
-      // if(req.body.password != null && req.body.password !== ""){
-      //   filedata.password = await bcrypt.hash(req.body.password , 10)
-      // }
-      filedata.password = await bcrypt.hash(filedata.password, 10);
+      if (req.body.password != null) {
+        filedata.password = await bcrypt.hash(filedata.password, 10);
+      }
       const sharefile = await shaareModel.create(filedata);
       console.log(sharefile);
       // res.render('index', {filelink : `${req.headers.origin}/file/${user._id}`})
-      res.send(`http://localhost:3000/sharefile/${sharefile._id}`);
+      res.json({ url: `http://localhost:3000/sharefile/${sharefile._id}` });
       // const readStream = gridFsBucket.openDownloadStream(file._id);
       // readStream.pipe(res);
     }
