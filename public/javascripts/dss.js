@@ -4,6 +4,11 @@ let allFolder = document.querySelectorAll(".folderDiv");
 let allFile = document.querySelectorAll(".fileDiv");
 let optionsWrapper = document.querySelector(".optionsWrapper");
 let GLOBAL_ID;
+let shareUrl;
+let copyLinkButton = document.querySelector(".copyLink");
+let sharePasswordDiv = document.querySelector(".share-password");
+let sharePasswordForm = document.querySelector(".share-password form");
+let isShareRolePublic = true;
 gridViewBtn.addEventListener("click", function () {
   this.classList.add("selectedIcon");
   listViewBtn.classList.remove("selectedIcon");
@@ -38,6 +43,8 @@ document.querySelector(".folderWrapper").addEventListener("click", (e) => {
     e.target.classList.add("folderDivSelected");
     optionsWrapper.style.display = "flex";
     // document.querySelector('.addToStar').setAttribute(`href','http://localhost:3000/star/${GLOBAL_ID}`);
+    document.querySelector(".delete")
+    .setAttribute('href',`http://localhost:3000/deletefolder/${GLOBAL_ID}`);
   } else {
     allFolder.forEach((folderDiv) => {
       folderDiv.classList.remove("folderDivSelected");
@@ -60,6 +67,7 @@ document.querySelector(".fileWrapper").addEventListener("click", (e) => {
     e.target.classList.add("folderDivSelected");
     optionsWrapper.style.display = "flex";
     // document.querySelector('.addToStar').setAttribute(`href','http://localhost:3000/star/${GLOBAL_ID}`);
+    document.querySelector('.delete').setAttribute('href',`http://localhost:3000/deletefile/${GLOBAL_ID}`);
   } else {
     allFile.forEach((fileDiv) => {
       fileDiv.classList.remove("folderDivSelected");
@@ -125,12 +133,48 @@ document.querySelector(".folderWrapper").addEventListener("dblclick", (e) => {
     let folderId = e.target.getAttribute("data-bs-folderId");
 
     window.location.href = `http://localhost:3000/dashboard/${folderId}`;
+    let pathCtn = document.querySelector('.pathCtn');
+
+    console.log(pathCtn.offsetWidth);
+    // if(pathCtn.offsetWidth > 550){
+    //   console.log('bada ho gaya')
+    //   console.log(pathCtn.offsetWidth)
+    // }
   }
 });
 
-document.querySelector(".shareRole").addEventListener("click", function (e) {
-  console.log(e.target.classList);
-  console.log(GLOBAL_ID);
+document
+  .querySelector(".shareRole")
+  .addEventListener("click", async function (e) {
+    console.log(e.target.classList);
+    console.log(GLOBAL_ID);
+    if (e.target.classList[1] == "public") {
+      isShareRolePublic = true;
+      sharePasswordDiv.style.display = "none";
+      copyLinkButton.style.display = "block";
+    } else {
+      isShareRolePublic = false;
+      sharePasswordDiv.style.display = "block";
+      copyLinkButton.style.display = "none";
+    }
+  });
+
+sharePasswordForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  let { data } = await axios.post(`/share/${GLOBAL_ID}`, {
+    password: e.target[0].value,
+  });
+  shareUrl = data.url;
+  copyLinkButton.style.display = "block";
+});
+copyLinkButton.addEventListener("click", async (e) => {
+  if (isShareRolePublic) {
+    let { data } = await axios.post(`/share/${GLOBAL_ID}`);
+    shareUrl = data.url;
+  }
+  console.log(shareUrl);
+  if (shareUrl) await navigator.clipboard.writeText(shareUrl);
 });
 
 // add ID to star option
@@ -139,4 +183,3 @@ let starFnc = document.querySelector('.addToStar');
 starFnc.addEventListener('click',()=>{
   window.location.href =`http://localhost:3000/star/${GLOBAL_ID}`;
 });
-

@@ -332,23 +332,22 @@ router.get("/file/:id", async (req, res) => {
   });
 });
 
-router.get("/share/:filename", async (req, res) => {
+router.post("/share/:filename", async (req, res) => {
   await gfs.files.findOne(
     { filename: req.params.filename },
     async (err, file) => {
       const filedata = {
-        password: "12345",
+        password: req.body.password,
         path: file._id,
-        originalname: file.filename.split("*")[0],
+        originalname: file.filename.split("*")[1],
       };
-      // if(req.body.password != null && req.body.password !== ""){
-      //   filedata.password = await bcrypt.hash(req.body.password , 10)
-      // }
-      filedata.password = await bcrypt.hash(filedata.password, 10);
+      if (req.body.password != null) {
+        filedata.password = await bcrypt.hash(filedata.password, 10);
+      }
       const sharefile = await shaareModel.create(filedata);
       console.log(sharefile);
       // res.render('index', {filelink : `${req.headers.origin}/file/${user._id}`})
-      res.send(`http://localhost:3000/sharefile/${sharefile._id}`);
+      res.json({ url: `http://localhost:3000/sharefile/${sharefile._id}` });
       // const readStream = gridFsBucket.openDownloadStream(file._id);
       // readStream.pipe(res);
     }
@@ -434,6 +433,23 @@ router
       }
     }
   });
+
+  router.get("/deletefile/:id", async (req, res) => {
+    gfs.files.remove({filename : req.params.id , root : 'uploads'}, async(err , gridStore)=>{
+      if(err){
+        return res.status(404).json({err:err})
+      }
+     await fileModel.deleteOne({filename : req.params.id})
+      return res.redirect(req.headers.referer)
+    })
+
+  });
+
+  router.get("/deletefolder/:id", async (req, res) => {
+    await folderModel.findByIdAndDelete({_id : req.params.id})
+    res.redirect(req.headers.referer)
+  }) 
+
 function isLoggedIn(req, res, next) {
   // req.user ? next() : res.sendStatus(401);
   if (req.isAuthenticated() || req.user) {

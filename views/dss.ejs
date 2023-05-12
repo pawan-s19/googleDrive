@@ -177,10 +177,10 @@
           <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
               <div class="content_navLeft">
-                <div class="dropdown-center">
+                <div class="pathCtn dropdown-center">
                   <% if(!path){ %>
                       <button
-                      class="btn bg-none border-0 dropdown-toggle"
+                      class="folderPath p-1 rounded-1 btn bg-none border-0 dropdown-toggle"
                       type="button"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
@@ -189,14 +189,18 @@
                     </button>
                   <% } else{ %>
                     <div class="d-flex align-items-center ms-2">
-                      <a class="text-dark text-decoration-none" href="/dashboard">My Drive</a>>
+                      <a class="folderPath p-1 rounded-1 text-dark text-decoration-none" href="/dashboard">My Drive</a>
+                      <i class="text-secondary ri-arrow-right-s-line"></i>
                       <% path.forEach((e,i) => { %>
                         <% if(path.length-1 !== i){ %>
-                          <a class="text-dark text-decoration-none" href="/dashboard/<%=e.id%>"><%=e.name%>></a>
+                          <a class="folderPath p-1 rounded-1 text-dark text-decoration-none" href="/dashboard/<%=e.id%>">
+                            <%=e.name%>
+                            <i class="text-secondary ri-arrow-right-s-line"></i>
+                          </a>
                         <% } else{ %>
                           <div class="dropdown-center">
                             <button
-                            class="btn bg-none border-0 dropdown-toggle"
+                            class="folderPath p-1 rounded-1 bg-transparent border-0 dropdown-toggle"
                             type="button"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
@@ -258,7 +262,7 @@
               </div>
               <div class="content_navRight d-flex align-items-center">
                 <div class="optionsWrapper align-items-center">
-                  <a class="text-decoration-none text-dark">
+                  <a class=" delete text-decoration-none text-dark">
                     <i
                       class="deleteIcon optionIcons p-2 rounded-circle ri-delete-bin-fill"
                     ></i>
@@ -608,15 +612,27 @@
                 </div>
               </div>
             </div>
+            <div class="share-password" style="display: none">
+              <form class="form-group w-75 ms-3 mb-3 d-flex">
+                <input
+                  class="form-control"
+                  name="password"
+                  placeholder="Set a password"
+                  required
+                />
+                <input
+                  class="ms-4 btn btn-primary pass-button"
+                  type="submit"
+                  value="Confirm"
+                />
+              </form>
+            </div>
             <div class="modal-footer justify-content-between">
               <button
                 type="button"
                 class="copyLink btn btn-outline-primary border-dark"
               >
                 <i class="ri-link"></i> Copy Link
-              </button>
-              <button type="button" class="btn btn-primary">
-                Send message
               </button>
             </div>
           </div>
@@ -628,6 +644,12 @@
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
       crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"
+      integrity="sha512-LUKzDoJKOLqnxGWWIBM4lzRBlxcva2ZTztO8bTcWPmDSpkErWx0bSP4pdsjNH8kiHAUPaT06UXcb+vOEZH+HpQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
     ></script>
     <script src="../javascripts//dss.js"></script>
   </body>
