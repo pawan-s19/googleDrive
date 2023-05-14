@@ -132,8 +132,9 @@ document.querySelector(".folderWrapper").addEventListener("dblclick", (e) => {
   if (e.target.classList.contains("folderDiv")) {
     let folderId = e.target.getAttribute("data-bs-folderId");
 
-    window.location.href = `http://localhost:3000/dashboard/${folderId}`;
-    let pathCtn = document.querySelector('.pathCtn');
+   let newUrl = `${window.location.origin}/dashboard/${folderId}`;
+   window.location.href = newUrl;
+   let pathCtn = document.querySelector('.pathCtn');
 
     console.log(pathCtn.offsetWidth);
     // if(pathCtn.offsetWidth > 550){
